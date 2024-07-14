@@ -1,0 +1,6 @@
+<tr *ngFor="let row of data">
+    <td *ngFor="let item of row|keyvalue:returnZeroToPreventSort">
+        {{item.value}}
+    </td>
+
+</tr>

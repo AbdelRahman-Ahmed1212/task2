@@ -8,7 +8,11 @@
         </tbody>
     </table>
     <app-paginator [NumberOfPages]="NofPages" *ngIf="options.pagination" (PageNavigate)="DisplayPage($event)"></app-paginator>
+    <button (click)="deleteSelected()" *ngIf="options.selection">
+            Delete selected
+    </button>
 </div>
+
 <ng-template #EditDialog>
     <!-- i had some issues here when i tried to group these inputs to a form -->
     <div *ngFor="let item of ItemToEdit | keyvalue let i = index">

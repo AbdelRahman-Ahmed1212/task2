@@ -59,12 +59,17 @@ DisplayPage(pg:number){
 }
 ngOnInit(): void {
   this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
-   this.options.data = this.options.data.map((element:any)=> Object.assign({selected:false},element))
+  if(this.options.selection){
+    this.options.data = this.options.data.map((element:any)=> Object.assign({selected:false},element))
+
+  }
     console.log(this.options.data)
     this.DisplayPage(this.pageNumber)
 }
 ngOnChanges():void{
   this.DisplayPage(this.pageNumber)
+
+
 
 }
 commitDelete(rowNumber:number){
@@ -119,4 +124,15 @@ getString(input:any)
 
   return String(input);
 }
+deleteSelected(){
+  if(confirm("do you really want to delete selected rows")){
+    this.options.data = this.options.data.filter(
+      (a:any)=> !a.selected
+    ) 
+    this.DisplayPage(this.pageNumber)
+    this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
+
+  }
+}
+
 }

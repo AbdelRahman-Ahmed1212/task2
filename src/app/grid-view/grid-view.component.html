@@ -4,7 +4,7 @@
             <app-header [headers]="options.headers" (TriggerSort)="sort($event)"></app-header>
         </thead>
         <tbody>
-            <app-body [data]="page" [PageNumber]="pageNumber"></app-body>
+            <app-body [data]="page" (EditAction)="DisplayEdit($event)" (DeleteAction)="commitDelete($event)" [PageNumber]="pageNumber"></app-body>
         </tbody>
     </table>
     <app-paginator [NumberOfPages]="NofPages" (PageNavigate)="DisplayPage($event)"></app-paginator>

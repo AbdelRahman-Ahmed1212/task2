@@ -2,5 +2,8 @@
     <td *ngFor="let item of row|keyvalue:returnZeroToPreventSort">
         {{item.value}}
     </td>
-
+    <td>
+        <button (click)="edit(row.id)" style="margin: 2px">Edit</button>
+        <button (click)="delete(row.id)" style="margin: 2px">Delete</button>
+    </td>
 </tr>

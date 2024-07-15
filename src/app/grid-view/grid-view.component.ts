@@ -55,5 +55,15 @@ ngOnInit(): void {
 ngOnChanges():void{
   this.DisplayPage(this.pageNumber)
 }
+commitDelete(rowNumber:number){
+  this.options.data = this.options.data.filter(
+         (item:any)=>item.id != rowNumber 
+        )
+        this.DisplayPage(this.pageNumber)
+
+}
+DisplayEdit(rowNumber:number){
+      
+}
 
 }

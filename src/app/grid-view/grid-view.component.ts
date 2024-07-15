@@ -59,7 +59,8 @@ DisplayPage(pg:number){
 }
 ngOnInit(): void {
   this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
-
+   this.options.data = this.options.data.map((element:any)=> Object.assign({selected:false},element))
+    console.log(this.options.data)
     this.DisplayPage(this.pageNumber)
 }
 ngOnChanges():void{
@@ -78,8 +79,9 @@ commitDelete(rowNumber:number){
 DisplayEdit(rowNumber:number){
       this.ItemToEdit = this.options.data[rowNumber - 1]
        console.log(this.ItemToEdit)
-      console.log(rowNumber)
       this.EditMode = true
+      console.log(this.options)
+
 
 }
 SaveEditedItem(){
@@ -103,7 +105,6 @@ SaveEditedItem(){
      }
     
    )
-   console.log(this.options.data)
 }
 cancel(){
   if(confirm("are you sure to exit Edit mode?")){

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Options } from '../../../interfaces/Options';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class HeaderComponent {
     @Output() TriggerSort = new EventEmitter<string>();
     @Input() data:Array<{}> = [];
     @Input() headers:{name:string,sortable:boolean} []= []
+    @Input() options:Options|any
     
   ColumnClicked(ColumnName:string){
     

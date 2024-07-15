@@ -15,7 +15,7 @@ export class AppComponent {
           hiddenColumns :[],
           pagination:true,
           search:false, 
-          selection:false,
+          selection:true,
           data:[
             {
               id:1,

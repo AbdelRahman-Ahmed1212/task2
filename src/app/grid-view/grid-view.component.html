@@ -1,7 +1,7 @@
 <div *ngIf="!EditMode else EditDialog">
     <table class="table">
         <thead>
-            <app-header [headers]="options.headers" (TriggerSort)="sort($event)"></app-header>
+            <app-header [headers]="options.headers" [options]="options" (TriggerSort)="sort($event)"></app-header>
         </thead>
         <tbody>
             <app-body [data]="page" (EditAction)="DisplayEdit($event)" (DeleteAction)="commitDelete($event)" [PageNumber]="pageNumber"></app-body>
@@ -12,9 +12,11 @@
 <ng-template #EditDialog>
     <!-- i had some issues here when i tried to group these inputs to a form -->
     <div *ngFor="let item of ItemToEdit | keyvalue let i = index">
+        @if(item.key != 'selected'){
         <label [for]="item.key"> {{item.key}}</label>:
         <input type="text" [id]="item.key" [(ngModel)]="ItemToEdit[getString(item.key)]" [name]="getString(item.key)" *ngIf="!options.headers[i].editable" required/>
-        <span type="text" [id]="item.key" *ngIf="options.headers[i].editable">{{ItemToEdit[getString(item.key)]}}</span>
+        <span type="text" [id]="item.key" *ngIf="options.headers[i].editable">{{ItemToEdit[getString(item.key)]}}</span> }
+
 
     </div>
     <input type="submit" (click)="SaveEditedItem()" />

@@ -1,4 +1,5 @@
 <tr>
+    <th *ngIf="options.selection">Select</th>
     <th *ngFor="let header of headers let i = index ">
         <span *ngIf="header.sortable" (click)="ColumnClicked(header.name)">
             {{header.name}}

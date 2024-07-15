@@ -1,10 +1,11 @@
 import { Component, Input, Output,EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import {FormsModule} from '@angular/forms'
+import { CLOSING } from '../../../../node_modules/@types/ws';
 @Component({
   selector: 'app-body',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './body.component.html',
   styleUrl: './body.component.css'
 })
@@ -24,7 +25,11 @@ export class BodyComponent {
         }
       }
       edit(n:number){
-
+        console.log(this.data)
         this.EditAction.emit(n)
+      }
+      ToggleCheckBox(id:number){
+       const  selectedElement =  this.data.find((a:any)=>a.id == id)
+       selectedElement.selected = !selectedElement.selected
       }
 }

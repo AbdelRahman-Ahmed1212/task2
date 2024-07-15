@@ -1,6 +1,8 @@
 <tr *ngFor="let row of data">
-    <td *ngFor="let item of row|keyvalue:returnZeroToPreventSort">
-        {{item.value}}
+
+    <td *ngFor="let item of row|keyvalue:returnZeroToPreventSort let i = index">
+        @if(item.key == 'selected'){
+        <input type="checkbox" (change)="ToggleCheckBox(row.id)" [checked]="row.selected" [id]="row.id" /> }@else{ {{item.value}} }
     </td>
     <td>
         <button (click)="edit(row.id)" style="margin: 2px">Edit</button>

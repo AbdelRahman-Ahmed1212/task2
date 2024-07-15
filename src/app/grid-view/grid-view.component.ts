@@ -77,8 +77,8 @@ commitDelete(rowNumber:number){
 }
 DisplayEdit(rowNumber:number){
       this.ItemToEdit = this.options.data[rowNumber - 1]
-      // console.log(this.ItemToEdit)
-
+       console.log(this.ItemToEdit)
+      console.log(rowNumber)
       this.EditMode = true
 
 }

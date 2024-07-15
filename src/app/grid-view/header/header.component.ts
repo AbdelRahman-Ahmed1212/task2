@@ -10,12 +10,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  @Output() TriggerSort = new EventEmitter<number>();
+    @Output() TriggerSort = new EventEmitter<string>();
     @Input() data:Array<{}> = [];
-    @Input() headers:string[]= []
+    @Input() headers:{name:string,sortable:boolean} []= []
     
-  ColumnClicked(CIndex:number){
-    this.TriggerSort.emit(CIndex)
+  ColumnClicked(ColumnName:string){
+    
+    this.TriggerSort.emit(ColumnName)
   }
 
 }

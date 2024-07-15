@@ -1,8 +1,11 @@
-<table class="table">
-    <thead>
-        <app-header [headers]="options.headers" (TriggerSort)="sort($event)"></app-header>
-    </thead>
-    <tbody>
-        <app-body [data]="options.data"></app-body>
-    </tbody>
-</table>
+<div>
+    <table class="table">
+        <thead>
+            <app-header [headers]="options.headers" (TriggerSort)="sort($event)"></app-header>
+        </thead>
+        <tbody>
+            <app-body [data]="page" [PageNumber]="pageNumber"></app-body>
+        </tbody>
+    </table>
+    <app-paginator [NumberOfPages]="3" (PageNavigate)="DisplayPage($event)"></app-paginator>
+</div>

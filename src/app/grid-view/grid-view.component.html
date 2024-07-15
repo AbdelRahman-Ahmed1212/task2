@@ -1,6 +1,6 @@
 <table class="table">
     <thead>
-        <app-header [headers]="options.headers"></app-header>
+        <app-header [headers]="options.headers" (TriggerSort)="sort($event)"></app-header>
     </thead>
     <tbody>
         <app-body [data]="options.data"></app-body>

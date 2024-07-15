@@ -12,7 +12,7 @@ import { Options } from '../interfaces/Options';
 })
 export class AppComponent {
         GridViewOptions:Options = {
-          sortables : [],
+          sortables : [1],
           hiddenColumns :[],
           pagination:false,
           search:false, 

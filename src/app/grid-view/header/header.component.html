@@ -1,4 +1,4 @@
 <tr>
-    <th *ngFor="let header of headers">{{header}}</th>
+    <th *ngFor="let header of headers let i = index" (click)="ColumnClicked(i)">{{header}}</th>
 
 </tr>

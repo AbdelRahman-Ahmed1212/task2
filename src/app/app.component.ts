@@ -13,7 +13,7 @@ import { Options } from '../interfaces/Options';
 export class AppComponent {
         GridViewOptions:Options = {
           hiddenColumns :[],
-          pagination:false,
+          pagination:true,
           search:false, 
           selection:false,
           data:[
@@ -55,9 +55,9 @@ export class AppComponent {
             }
           ],
           headers:[
-            {name:'id',sortable:true},
-            {name:'name',sortable:false},
-            {name:'age',sortable:true}
+            {name:'id',sortable:true,editable:false},
+            {name:'name',sortable:false,editable:true},
+            {name:'age',sortable:true,editable:false}
           ]
         }  
 

@@ -7,5 +7,5 @@
             <app-body [data]="page" [PageNumber]="pageNumber"></app-body>
         </tbody>
     </table>
-    <app-paginator [NumberOfPages]="3" (PageNavigate)="DisplayPage($event)"></app-paginator>
+    <app-paginator [NumberOfPages]="NofPages" (PageNavigate)="DisplayPage($event)"></app-paginator>
 </div>

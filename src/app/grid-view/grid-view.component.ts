@@ -17,14 +17,17 @@ export class GridViewComponent implements OnInit , OnChanges{
   page:{}[] = []
   pageNumber = 0;
   pageSize = 3;
+  NofPages:number = 0
   sorted:{[colName:string]:boolean}= {}
- // NofPages = Number(this.options.data.length)
   sort(colName:string){
+
     if(!this.sorted[colName]){
       this.options.data.sort(
         (a:any,b:any)=>b[colName] - a[colName]
       )
       this.sorted[colName] = true
+      this.DisplayPage(this.pageNumber)
+
       return;
     }
 
@@ -33,6 +36,7 @@ export class GridViewComponent implements OnInit , OnChanges{
       ) 
       this.sorted[colName] = false
       this.DisplayPage(this.pageNumber)
+
 
 }
 
@@ -44,6 +48,7 @@ DisplayPage(pg:number){
 
 }
 ngOnInit(): void {
+  this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
 
     this.DisplayPage(this.pageNumber)
 }

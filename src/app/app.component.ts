@@ -88,7 +88,8 @@ export class AppComponent {
             colName:'age',
             direction:'desc'
         },
-        translation:false
+        translation:true,
+        language:'are'
 
         }  
 

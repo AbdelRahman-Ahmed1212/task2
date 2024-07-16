@@ -11,6 +11,7 @@ export interface Options{
     StartPage:number, // page to start from 
     PageSize:number
     translation:boolean,
-    Actions:Action[]
+    Actions:Action[],
+    language:string
 
 }

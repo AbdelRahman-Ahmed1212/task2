@@ -19,7 +19,7 @@ export class GridViewComponent implements OnInit , OnChanges{
   page:{}[] = []
   pageNumber = 0;
   
-  pageSize = 3;
+  pageSize!:number; 
   NofPages:number = 0
   sorted:{[colName:string]:boolean}= {}
   ItemToEdit:any;
@@ -32,16 +32,16 @@ export class GridViewComponent implements OnInit , OnChanges{
         (a:any,b:any)=>b[colName] - a[colName]
       )
       this.sorted[colName] = true
-      this.DisplayPage(this.pageNumber)
-
+      this.DisplayPage(this.NofPages-1)
       return;
     }
 
      this.options.data.sort(
+       
         (a:any,b:any)=>a[colName] - b[colName]
       ) 
       this.sorted[colName] = false
-      this.DisplayPage(1)
+      this.DisplayPage(0)
 
 
 }
@@ -59,14 +59,23 @@ DisplayPage(pg:number){
 
 }
 ngOnInit(): void {
+  this.pageSize = this.options.PageSize;
   this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
   if(this.options.selection){
     this.options.data = this.options.data.map((element:any)=> Object.assign({selected:false},element))
 
   }
     this.DisplayPage(this.pageNumber)
-    if(this.options.DefaultSortedColumn){
+    const SortedColumn =this.options.DefaultSortedColumn 
+    
+    if(SortedColumn){
+        if(SortedColumn.direction == 'desc'){
+          this.sort(SortedColumn.colName)
+        }else{
+          this.sorted[SortedColumn.colName] = true;
+          this.sort(SortedColumn.colName)
 
+        }
     }
 }
 ngOnChanges():void{

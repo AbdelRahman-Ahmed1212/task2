@@ -63,7 +63,7 @@ export class AppComponent {
           ],
           headers:[
             {name:'id',sortable:true,},
-            {name:'name',sortable:false},
+            {name:'name',sortable:true},
             {name:'age',sortable:true,},
             {name:'Active',sortable:false,}
           ],
@@ -86,7 +86,7 @@ export class AppComponent {
         ],
         DefaultSortedColumn:{
             colName:'age',
-            direction:'asc'
+            direction:'desc'
         },
         translation:false
 

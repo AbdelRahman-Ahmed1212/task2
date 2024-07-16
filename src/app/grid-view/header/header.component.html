@@ -3,6 +3,14 @@
     <th *ngFor="let header of headers let i = index ">
         <span *ngIf="header.sortable" (click)="ColumnClicked(header.name)">
             {{header.name}}
+            @if(SortDirections[header.name] == true){
+                <fa-icon [icon]="fadesc"></fa-icon>
+            }@else if(SortDirections[header.name] == false){
+                <fa-icon [icon]="faasc"></fa-icon>
+            }@else{
+                <fa-icon [icon]="fasort"></fa-icon>
+
+            }
         </span>
         <span *ngIf="!header.sortable">
             {{header.name}}

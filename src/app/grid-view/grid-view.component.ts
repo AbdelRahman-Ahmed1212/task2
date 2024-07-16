@@ -18,6 +18,7 @@ export class GridViewComponent implements OnInit , OnChanges{
   @Input() options:Options|any;
   page:{}[] = []
   pageNumber = 0;
+  
   pageSize = 3;
   NofPages:number = 0
   sorted:{[colName:string]:boolean}= {}
@@ -40,7 +41,7 @@ export class GridViewComponent implements OnInit , OnChanges{
         (a:any,b:any)=>a[colName] - b[colName]
       ) 
       this.sorted[colName] = false
-      this.DisplayPage(this.pageNumber)
+      this.DisplayPage(1)
 
 
 }
@@ -63,8 +64,10 @@ ngOnInit(): void {
     this.options.data = this.options.data.map((element:any)=> Object.assign({selected:false},element))
 
   }
-    console.log(this.options.data)
     this.DisplayPage(this.pageNumber)
+    if(this.options.DefaultSortedColumn){
+
+    }
 }
 ngOnChanges():void{
   this.DisplayPage(this.pageNumber)
@@ -83,9 +86,7 @@ commitDelete(rowNumber:number){
 }
 DisplayEdit(rowNumber:number){
       this.ItemToEdit = this.options.data[rowNumber - 1]
-       console.log(this.ItemToEdit)
       this.EditMode = true
-      console.log(this.options)
 
 
 }
@@ -133,6 +134,9 @@ deleteSelected(){
     this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
 
   }
+}
+commitAction(data:any){
+  console.log(data)
 }
 
 }

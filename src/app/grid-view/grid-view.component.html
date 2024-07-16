@@ -1,10 +1,10 @@
-<div *ngIf="!EditMode else EditDialog">
+<div>
     <table class="table">
         <thead>
-            <app-header [headers]="options.headers" [options]="options" (TriggerSort)="sort($event)"></app-header>
+            <app-header [headers]="options.headers" [SortDirections]="sorted" [options]="options" (TriggerSort)="sort($event)"></app-header>
         </thead>
         <tbody>
-            <app-body [data]="page" (EditAction)="DisplayEdit($event)" (DeleteAction)="commitDelete($event)" [PageNumber]="pageNumber"></app-body>
+            <app-body [data]="page" [options]="options" [PageNumber]="pageNumber" (ActionEmitter)="commitAction($event)"></app-body>
         </tbody>
     </table>
     <app-paginator [NumberOfPages]="NofPages" *ngIf="options.pagination" (PageNavigate)="DisplayPage($event)"></app-paginator>
@@ -12,19 +12,3 @@
             Delete selected
     </button>
 </div>
-
-<ng-template #EditDialog>
-    <!-- i had some issues here when i tried to group these inputs to a form -->
-    <div *ngFor="let item of ItemToEdit | keyvalue let i = index">
-        @if(item.key != 'selected'){
-        <label [for]="item.key"> {{item.key}}</label>:
-        <input type="text" [id]="item.key" [(ngModel)]="ItemToEdit[getString(item.key)]" [name]="getString(item.key)" *ngIf="!options.headers[i].editable" required/>
-        <span type="text" [id]="item.key" *ngIf="options.headers[i].editable">{{ItemToEdit[getString(item.key)]}}</span> }
-
-
-    </div>
-    <input type="submit" (click)="SaveEditedItem()" />
-    <button (click)="cancel()">Cancel</button>
-
-
-</ng-template>

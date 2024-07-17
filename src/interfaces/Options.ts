@@ -12,6 +12,8 @@ export interface Options{
     PageSize:number
     translation:boolean,
     Actions:Action[],
+    languages:string[]
     language:string
+
 
 }

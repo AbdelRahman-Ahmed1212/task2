@@ -89,7 +89,8 @@ export class AppComponent {
             direction:'desc'
         },
         translation:true,
-        language:'are'
+        language:'ar',
+        languages:['ar','en']
 
         }  
 

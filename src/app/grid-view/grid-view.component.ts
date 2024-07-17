@@ -5,11 +5,12 @@ import { Options } from '../../interfaces/Options';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-grid-view',
   standalone: true,
-  imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule],
+  imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule,TranslateModule],
   templateUrl: './grid-view.component.html',
   styleUrl: './grid-view.component.css'
 })
@@ -24,7 +25,9 @@ export class GridViewComponent implements OnInit , OnChanges{
   sorted:{[colName:string]:boolean}= {}
   ItemToEdit:any;
   EditMode = false
+  constructor(private translate:TranslateService){
 
+  }
   sort(colName:string){
 
     if(!this.sorted[colName]){
@@ -59,12 +62,15 @@ DisplayPage(pg:number){
 
 }
 ngOnInit(): void {
+  this.translate.addLangs(this.options.languages)
+  this.translate.use(this.options.language) 
   this.pageSize = this.options.PageSize;
   this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
   if(this.options.selection){
     this.options.data = this.options.data.map((element:any)=> Object.assign({selected:false},element))
 
   }
+
     this.DisplayPage(this.pageNumber)
     const SortedColumn =this.options.DefaultSortedColumn 
     

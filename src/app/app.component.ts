@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GridViewComponent } from './grid-view/grid-view.component';
 import { Options } from '../interfaces/Options';
+import { Agent } from '../../node_modules/undici-types';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,13 @@ import { Options } from '../interfaces/Options';
 export class AppComponent {
         GridViewOptions:Options = {
           hiddenColumns :[],
-          pagination:true,
+          pagination:{
+            pageSize:3,
+            paging:true,
+            startPage:1
+          },
           search:false, 
-          selection:false,
+          selection:true,
           data:[
             {
               id:1,
@@ -59,7 +64,9 @@ export class AppComponent {
               name:'hamed',
               age:10,
               Active:true
-            }
+            },
+            
+           
           ],
           headers:[
             {name:'id',sortable:true,},
@@ -68,8 +75,6 @@ export class AppComponent {
             {name:'Active',sortable:false,}
           ],
 
-          StartPage:2,
-          PageSize:3,
           Actions:[
           {
               Name:'Delete',
@@ -86,12 +91,19 @@ export class AppComponent {
         ],
         DefaultSortedColumn:{
             colName:'age',
-            direction:'desc'
+            direction:'asc'
         },
         translation:true,
         language:'ar',
-        languages:['ar','en']
-
+        languages:['ar','en'],
+        searchableColumns:[
+          {
+            name:'age' , periority:1
+          },
+          {
+            name:'id' , periority:0
+          }
+        ]
         }  
 
 

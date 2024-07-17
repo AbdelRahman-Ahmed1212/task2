@@ -6,11 +6,12 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { ControlsComponent } from './Controls/controls/controls.component';
 
 @Component({
   selector: 'app-grid-view',
   standalone: true,
-  imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule,TranslateModule],
+  imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule,TranslateModule,ControlsComponent],
   templateUrl: './grid-view.component.html',
   styleUrl: './grid-view.component.css'
 })
@@ -19,12 +20,11 @@ export class GridViewComponent implements OnInit , OnChanges{
   @Input() options:Options|any;
   page:{}[] = []
   pageNumber = 0;
-  
+  isAllSelected!:boolean
   pageSize!:number; 
   NofPages:number = 0
   sorted:{[colName:string]:boolean}= {}
-  ItemToEdit:any;
-  EditMode = false
+  SelectedCount: number = 0;
   constructor(private translate:TranslateService){
 
   }
@@ -50,7 +50,7 @@ export class GridViewComponent implements OnInit , OnChanges{
 }
 
 DisplayPage(pg:number){
-  if(this.options.pagination){
+  if(this.options.paging){
     this.pageNumber = pg;
     const startIndex = pg * this.pageSize;
     const EndIndex = startIndex + this.pageSize
@@ -64,7 +64,7 @@ DisplayPage(pg:number){
 ngOnInit(): void {
   this.translate.addLangs(this.options.languages)
   this.translate.use(this.options.language) 
-  this.pageSize = this.options.PageSize;
+  this.pageSize = this.options.pagination.pageSize;
   this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
   if(this.options.selection){
     this.options.data = this.options.data.map((element:any)=> Object.assign({selected:false},element))
@@ -99,41 +99,6 @@ commitDelete(rowNumber:number){
 
 
 }
-DisplayEdit(rowNumber:number){
-      this.ItemToEdit = this.options.data[rowNumber - 1]
-      this.EditMode = true
-
-
-}
-SaveEditedItem(){
-  // if there is a backend we will call the post method from our service here here
-  const res =  Object.values(this.ItemToEdit).every(
-      (item:any)=>item !='' || item !=null
-  )
-  console.log(res)
-  console.log( Object.values(this.ItemToEdit))
-  if(!res){
-    alert('make sure all fields are filled')
-    return;
-  }
-  this.EditMode = false
-   this.options.data = this.options.data.map(
-     (item:any)=>{
-       if(item.id == this.ItemToEdit.id){
-          return this.ItemToEdit
-       }
-       return item
-     }
-    
-   )
-}
-cancel(){
-  if(confirm("are you sure to exit Edit mode?")){
-    this.EditMode = false
-  }
-  console.log(this.ItemToEdit)
-
-}
 /// helper function to convert property name from type unknow to string to index the object
 getString(input:any)
 {
@@ -150,8 +115,28 @@ deleteSelected(){
 
   }
 }
+
+SelectionCounter(value:boolean){
+  if(value == true){
+    this.SelectedCount +=1
+    return
+  }
+  this.SelectedCount -=1
+
+  if(this.SelectedCount == this.options.data){
+    this.isAllSelected = true
+    return
+  }
+  this.isAllSelected = false
+
+}
 commitAction(data:any){
   console.log(data)
+}
+toggleAllBoxs(){
+      this.options.data.forEach((element:any) => {
+          element.selected = !element.selected
+      });
 }
 
 }

@@ -5,7 +5,7 @@
         <input type="checkbox" (change)="ToggleCheckBox(row.id)" [checked]="row.selected" [id]="row.id" /> }@else{ {{item.value}} }
     </td>
     <td>
-        <button *ngFor="let Action of options.Actions" [disabled]="Action.Rule(row)" (click)="commitAction(Action.Name,row.id)">{{Action.Name}}</button>
+        <button *ngFor="let Action of options.Actions" [disabled]="!Action.Rule(row)" (click)="commitAction(Action.Name,row.id)">{{Action.Name}}</button>
     </td>
 </tr>
 <div> displaying page No. {{PageNumber+1}}</div>

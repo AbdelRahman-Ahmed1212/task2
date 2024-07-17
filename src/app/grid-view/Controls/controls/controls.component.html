@@ -1,0 +1,3 @@
+<div>
+    <button *ngFor="let Action of Actions" [disabled]="!IsActiveControl(Action)">{{Action.Name}}</button>
+</div>

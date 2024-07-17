@@ -1,13 +1,18 @@
 <div>
+    Select All: <input type="checkbox" (change)="toggleAllBoxs()" [(ngModel)]="isAllSelected" />
+</div>
+<div>
+    <app-controls [Data]="options.data" [Actions]="options.Actions"></app-controls>
+    <!-- //    search : <input type="text" [(ngModel)]="searchVal" (input)="SearchGrid()"> -->
     <table class="table">
         <thead>
             <app-header [headers]="options.headers" [SortDirections]="sorted" [options]="options" (TriggerSort)="sort($event)"></app-header>
         </thead>
         <tbody>
-            <app-body [data]="page" [options]="options" [PageNumber]="pageNumber" (ActionEmitter)="commitAction($event)"></app-body>
+            <app-body [data]="page" [options]="options" [PageNumber]="pageNumber" (SelectionIdenticatior)="SelectionCounter($event)" (ActionEmitter)="commitAction($event)"></app-body>
         </tbody>
     </table>
-    <app-paginator [NumberOfPages]="NofPages" *ngIf="options.pagination" (PageNavigate)="DisplayPage($event)"></app-paginator>
+    <app-paginator [NumberOfPages]="NofPages" *ngIf="options.pagination.paging" (PageNavigate)="DisplayPage($event)"></app-paginator>
     <button (click)="deleteSelected()" *ngIf="options.selection">
             Delete selected
     </button>

@@ -1,7 +1,6 @@
 import { Component, Input, Output,EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms'
-import { CLOSING } from '../../../../node_modules/@types/ws';
 import { Options } from '../../../interfaces/Options';
 @Component({
   selector: 'app-body',
@@ -15,7 +14,8 @@ export class BodyComponent {
       @Input() options!:Options
       @Input() PageNumber:number = 1;
       @Output() ActionEmitter = new EventEmitter<{Action:string,Id:number}>()
-   
+      @Output() SelectionIdenticatior = new EventEmitter<boolean>()
+       
 
     // this function is to used to return 0 to prevent returnZeroToPreventSort from sorting our array objects
       returnZeroToPreventSort(){
@@ -30,5 +30,13 @@ export class BodyComponent {
       ToggleCheckBox(id:number){
        const  selectedElement =  this.data.find((a:any)=>a.id == id)
        selectedElement.selected = !selectedElement.selected
+       if(selectedElement.selected){
+         this.SelectionIdenticatior.emit(false)
+       }else{
+        this.SelectionIdenticatior.emit(true)
+
+       }
+
       }
+      
 }

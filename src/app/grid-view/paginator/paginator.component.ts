@@ -11,7 +11,9 @@ import { CommonModule } from '@angular/common';
 export class PaginatorComponent {
   @Input() NumberOfPages:number = 0;
   @Output() PageNavigate = new EventEmitter<number>();
+  CurrentPage:number = 0
   EmitPageNumber(pg:number){
+    this.CurrentPage = pg
     this.PageNavigate.emit(pg)
   }
 

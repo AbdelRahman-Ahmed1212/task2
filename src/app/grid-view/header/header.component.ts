@@ -15,16 +15,24 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-    @Output() TriggerSort = new EventEmitter<string>();
+    @Output() TriggerAlphapiticalSort = new EventEmitter<string>();
+    @Output() TriggerNumiricSort = new EventEmitter<string>();
     @Input() data:Array<{}> = [];
-    @Input() headers:{name:string,sortable:boolean} []= []
+    @Input() headers:{name:string,sortable:boolean,dataType:string} []= []
     @Input() options:Options|any
     @Input() SortDirections!:{[colName:string]:boolean}
     fasort = faSort
     faasc = faSortDesc;
     fadesc = faSortAsc;
   ColumnClicked(ColumnName:string){
-    this.TriggerSort.emit(ColumnName)
+    const ColumnDataType = this.headers.find((a:any)=>a.name ==  ColumnName);
+    if(ColumnDataType == undefined)
+      return
+    if(ColumnDataType.dataType == 'string')
+      this.TriggerAlphapiticalSort.emit(ColumnName)
+    else
+      this.TriggerNumiricSort.emit(ColumnName)
+    
   }
 
 }

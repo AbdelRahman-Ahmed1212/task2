@@ -18,6 +18,9 @@ import { ControlsComponent } from './Controls/controls/controls.component';
 export class GridViewComponent implements OnInit , OnChanges{
  
   @Input() options:Options|any;
+  @Input () data:any;
+  @Input() mode! : 'client' | 'server'
+  @Input() url = ''
   page:{}[] = []
   pageNumber = 0;
   isAllSelected!:boolean
@@ -28,18 +31,33 @@ export class GridViewComponent implements OnInit , OnChanges{
   constructor(private translate:TranslateService){
 
   }
-  sort(colName:string){
-
+  AlphapiticalSort(colName:string){
     if(!this.sorted[colName]){
-      this.options.data.sort(
+      this.data.sort(
+        (a:any,b:any)=>b[colName].localeCompare(a[colName])
+      )
+      this.sorted[colName] = true
+      this.DisplayPage(0)
+      return;
+    }
+     this.data.sort(
+       
+        (a:any,b:any)=>a[colName].localeCompare(b[colName])
+      ) 
+      this.sorted[colName] = false
+      this.DisplayPage(0)
+      console.log('hello from alphpitical sort')
+  }
+  NumiricSort(colName:string){
+    if(!this.sorted[colName]){
+      this.data.sort(
         (a:any,b:any)=>b[colName] - a[colName]
       )
       this.sorted[colName] = true
-      this.DisplayPage(this.NofPages-1)
+      this.DisplayPage(0)
       return;
     }
-
-     this.options.data.sort(
+     this.data.sort(
        
         (a:any,b:any)=>a[colName] - b[colName]
       ) 
@@ -50,24 +68,24 @@ export class GridViewComponent implements OnInit , OnChanges{
 }
 
 DisplayPage(pg:number){
-  if(this.options.paging){
+  if(this.options.pagination.paging){
     this.pageNumber = pg;
     const startIndex = pg * this.pageSize;
     const EndIndex = startIndex + this.pageSize
-    this.page = this.options.data.slice(startIndex,EndIndex)
+    this.page = this.data.slice(startIndex,EndIndex)
     return
   }
 
-   this.page = this.options.data;
+   this.page = this.data;
 
 }
 ngOnInit(): void {
-  this.translate.addLangs(this.options.languages)
-  this.translate.use(this.options.language) 
+  this.translate.addLangs(this.options.Translation.languages)
+  this.translate.use(this.options.Translation.language) 
   this.pageSize = this.options.pagination.pageSize;
-  this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
+  this.NofPages = Math.ceil(this.data.length / this.pageSize)
   if(this.options.selection){
-    this.options.data = this.options.data.map((element:any)=> Object.assign({selected:false},element))
+    this.data = this.data.map((element:any)=> Object.assign({selected:false},element))
 
   }
 
@@ -75,13 +93,11 @@ ngOnInit(): void {
     const SortedColumn =this.options.DefaultSortedColumn 
     
     if(SortedColumn){
-        if(SortedColumn.direction == 'desc'){
-          this.sort(SortedColumn.colName)
-        }else{
+        if(SortedColumn.direction == 'asc'){
           this.sorted[SortedColumn.colName] = true;
-          this.sort(SortedColumn.colName)
-
         }
+        SortedColumn.dataType == 'number'?this.NumiricSort(SortedColumn.colName) : this.AlphapiticalSort(SortedColumn.colName)
+
     }
 }
 ngOnChanges():void{
@@ -91,11 +107,11 @@ ngOnChanges():void{
 
 }
 commitDelete(rowNumber:number){
-  this.options.data = this.options.data.filter(
+  this.data = this.data.filter(
          (item:any)=>item.id != rowNumber 
         )
         this.DisplayPage(this.pageNumber)
-        this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
+        this.NofPages = Math.ceil(this.data.length / this.pageSize)
 
 
 }
@@ -107,36 +123,37 @@ getString(input:any)
 }
 deleteSelected(){
   if(confirm("do you really want to delete selected rows")){
-    this.options.data = this.options.data.filter(
+    this.data = this.data.filter(
       (a:any)=> !a.selected
     ) 
     this.DisplayPage(this.pageNumber)
-    this.NofPages = Math.ceil(this.options.data.length / this.pageSize)
+    this.NofPages = Math.ceil(this.data.length / this.pageSize)
 
   }
 }
 
-SelectionCounter(value:boolean){
-  if(value == true){
-    this.SelectedCount +=1
-    return
-  }
-  this.SelectedCount -=1
 
-  if(this.SelectedCount == this.options.data){
-    this.isAllSelected = true
-    return
-  }
-  this.isAllSelected = false
-
-}
 commitAction(data:any){
   console.log(data)
 }
-toggleAllBoxs(){
-      this.options.data.forEach((element:any) => {
-          element.selected = !element.selected
+toggleAllBoxs(SelectAllCheckBox:any){
+      const status = (SelectAllCheckBox as HTMLInputElement).checked
+      this.data.forEach((element:any) => {
+          element.selected = status
       });
+      this.SelectedCount = this.data.length + 1
+}
+ChangeCheckBoxStatus(status:string){
+    if(status == 'checked'){
+      this.SelectedCount ++;
+    }else{
+      this.SelectedCount --;
+    }
+    if(this.SelectedCount == this.data.length + 1){
+      this.isAllSelected = true
+    }else{
+      this.isAllSelected = false
+    }
 }
 
 }

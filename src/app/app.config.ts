@@ -4,7 +4,7 @@ import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
-
+import gridOptions from '../gridOptions'
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
      provideRouter(routes),provideHttpClient() , importProvidersFrom(TranslateModule.forRoot({
@@ -17,5 +17,5 @@ export const appConfig: ApplicationConfig = {
      }))]
 };
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http,'./assets/i18n/','.json');
+  return new TranslateHttpLoader(http,`${gridOptions.Translation.TranslationPath}`,'.json');
 }

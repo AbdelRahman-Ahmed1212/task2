@@ -1,3 +1,5 @@
 <div class="Navigator">
+    <button [disabled]="CurrentPage == 0" (click)="EmitPageNumber(CurrentPage-1)"> previous </button>
     <a *ngFor="let item of [].constructor(NumberOfPages); let i = index" href="#" (click)="EmitPageNumber(i)"> {{i+1}}</a>
+    <button [disabled]="CurrentPage == NumberOfPages-1" (click)="EmitPageNumber(CurrentPage+1)">next</button>
 </div>

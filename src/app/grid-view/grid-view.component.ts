@@ -141,7 +141,7 @@ toggleAllBoxs(SelectAllCheckBox:any){
       this.data.forEach((element:any) => {
           element.selected = status
       });
-      this.SelectedCount = this.data.length + 1
+      this.SelectedCount = this.data.length 
 }
 ChangeCheckBoxStatus(status:string){
     if(status == 'checked'){
@@ -149,11 +149,12 @@ ChangeCheckBoxStatus(status:string){
     }else{
       this.SelectedCount --;
     }
-    if(this.SelectedCount == this.data.length + 1){
+    if(this.SelectedCount == this.data.length){
       this.isAllSelected = true
     }else{
       this.isAllSelected = false
     }
+    console.log(this.SelectedCount)
 }
 
 }

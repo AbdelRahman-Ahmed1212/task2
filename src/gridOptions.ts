@@ -1,6 +1,6 @@
  import {Options} from './interfaces/Options'
 const GridViewOptions:Options = {
-    hiddenColumns :[],
+    //hiddenColumns :[],
     pagination:{
       pageSize:3,
       paging:true,

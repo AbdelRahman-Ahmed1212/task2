@@ -16,6 +16,6 @@ export class ControlsComponent {
   IsActiveControl(action:Action):boolean{
       let filteredBasedOnSelection = this.Data.filter((obj:any)=>obj.selected == true)  
       if(filteredBasedOnSelection.length == 0) return false;    
-      return filteredBasedOnSelection.every(function(obj:any){return action.Rule(obj) && obj.selected})
+      return filteredBasedOnSelection.every(function(obj:any){return action.Rule(obj)})
   }  
 }

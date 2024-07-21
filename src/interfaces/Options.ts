@@ -2,7 +2,7 @@ import { Action } from './Action';
 
 export interface Options{
     search:boolean    // turn search on or off
-    hiddenColumns:number[] // column indexes we need to hide
+   // hiddenColumns:number[] // column indexes we need to hide
     pagination:{
         paging:boolean,
         pageSize:number,

@@ -67,8 +67,7 @@ export function   AlphapiticalSort(thisArg:any,colName:string,sorted:{colName:st
             sortColumnName:colName,
             pageSize:options.pagination.pageSize,
             sortDirection:sorted.direction,
-            searchWord:"",
-            currentPage:pageNumber
+            currentPage:pageNumber,
         }
         service.GetObjects(requestObj,url).subscribe(
             (data:ResponseDTO)=>{

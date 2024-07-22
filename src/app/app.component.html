@@ -1,1 +1,7 @@
+<div>
+    <div *ngFor="let header of GridViewOptions.headers">
+        {{header.name}}: <input type="text" />
+    </div>
+    <input type="button" value="filter" />
+</div>
 <app-grid-view [options]="GridViewOptions" [data]="data" mode="server" url="http://localhost:5054/User"></app-grid-view>

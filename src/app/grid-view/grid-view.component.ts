@@ -71,8 +71,7 @@ DisplayPage(pg:number){
         sortColumnName:this.sorted.colName,
         pageSize:this.options.pagination.pageSize,
         sortDirection:this.sorted.direction,
-        searchWord:"",
-        currentPage:pg
+        currentPage:pg,
     }
     console.log(requestObj)
       this.gridService.GetObjects(requestObj,this.url).subscribe(

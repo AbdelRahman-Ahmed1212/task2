@@ -3,7 +3,7 @@ export interface RequestDTO{
     sortDirection: sortDirection,
     currentPage: number,
     pageSize: number,
-    searchWord: string,
+
 
 }
 export enum sortDirection{

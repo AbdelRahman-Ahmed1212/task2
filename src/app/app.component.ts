@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GridViewComponent } from './grid-view/grid-view.component';
 import gridOptions from '../gridOptions'
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,GridViewComponent],
+  imports: [RouterOutlet,GridViewComponent,CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

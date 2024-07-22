@@ -7,13 +7,20 @@ const GridViewOptions:Options = {
       startPage:1
     },
     search:false, 
-    selection:true,
+    selection:false,
    
     headers:[
       {name:'id',sortable:true,dataType:'number'},
-      {name:'name',sortable:true,dataType:'string'},
-      {name:'age',sortable:true,dataType:'number'},
-      {name:'Active',sortable:false,dataType:'boolean'}
+      {name:'FirstName',sortable:true,dataType:'string'},
+      {name:'LastName',sortable:true,dataType:'string'},
+      {name:'Email',sortable:true,dataType:'string'},
+      {name:'Phone',sortable:true,dataType:'string'},
+      {name:'DOB',sortable:true,dataType:'string'},
+      // {name:'id',sortable:true,dataType:'number'},
+      // {name:'name',sortable:true,dataType:'string'},
+      // {name:'age',sortable:true,dataType:'number'},
+      // {name:'active',sortable:false,dataType:'boolean'},
+
     ],
 
     Actions:[
@@ -31,7 +38,7 @@ const GridViewOptions:Options = {
   },
   ],
   DefaultSortedColumn:{
-      colName:'age',
+      colName:'id',
       direction:'asc',
       dataType:'number'
   },
@@ -46,7 +53,7 @@ const GridViewOptions:Options = {
   Translation:{
     language:'ar',
     languages:['ar','en'],
-    translation:true,
+    translation:false,
     TranslationPath:'./assets/i18n/users/'
   }
 

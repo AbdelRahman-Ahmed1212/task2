@@ -7,6 +7,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ControlsComponent } from './Controls/controls/controls.component';
+import { GridService } from '../Services/grid.service';
+import { DaUser } from '../../DaUser';
+import {serverSort,AlphapiticalSort,NumiricSort}from '../../utils'
+import { RequestDTO, sortDirection } from '../../interfaces/RequestDTO';
+import { ResponseDTO } from '../../interfaces/ResponseDto';
 
 @Component({
   selector: 'app-grid-view',
@@ -15,7 +20,7 @@ import { ControlsComponent } from './Controls/controls/controls.component';
   templateUrl: './grid-view.component.html',
   styleUrl: './grid-view.component.css'
 })
-export class GridViewComponent implements OnInit , OnChanges{
+export class GridViewComponent implements OnInit {
  
   @Input() options:Options|any;
   @Input () data:any;
@@ -26,86 +31,97 @@ export class GridViewComponent implements OnInit , OnChanges{
   isAllSelected!:boolean
   pageSize!:number; 
   NofPages:number = 0
-  sorted:{[colName:string]:boolean}= {}
+  sorted!:{colName:string ; direction:sortDirection}
   SelectedCount: number = 0;
-  constructor(private translate:TranslateService){
+  RequestDto!:RequestDTO
+  constructor(private translate:TranslateService,private gridService:GridService){
+      
+  }
+
+  Sort(obj:{mode:string,colName:string}){
+      if(this.mode == 'server'){
+        serverSort(this,obj.colName,this.sorted,this.page,
+          this.DisplayPage,this.gridService,
+          this.options,this.pageNumber,this.url,this.NofPages)
+      }
+      else if(obj.mode == 'alpha'){
+        AlphapiticalSort(this,obj.colName,this.sorted,this.data,this.DisplayPage)
+      }else{
+        NumiricSort(this,obj.colName,this.sorted,this.data,this.DisplayPage)
+
+      }
 
   }
-  AlphapiticalSort(colName:string){
-    if(!this.sorted[colName]){
-      this.data.sort(
-        (a:any,b:any)=>b[colName].localeCompare(a[colName])
-      )
-      this.sorted[colName] = true
-      this.DisplayPage(0)
-      return;
-    }
-     this.data.sort(
-       
-        (a:any,b:any)=>a[colName].localeCompare(b[colName])
-      ) 
-      this.sorted[colName] = false
-      this.DisplayPage(0)
-      console.log('hello from alphpitical sort')
-  }
-  NumiricSort(colName:string){
-    if(!this.sorted[colName]){
-      this.data.sort(
-        (a:any,b:any)=>b[colName] - a[colName]
-      )
-      this.sorted[colName] = true
-      this.DisplayPage(0)
-      return;
-    }
-     this.data.sort(
-       
-        (a:any,b:any)=>a[colName] - b[colName]
-      ) 
-      this.sorted[colName] = false
-      this.DisplayPage(0)
+
+    
 
 
-}
 
 DisplayPage(pg:number){
   if(this.options.pagination.paging){
     this.pageNumber = pg;
     const startIndex = pg * this.pageSize;
-    const EndIndex = startIndex + this.pageSize
-    this.page = this.data.slice(startIndex,EndIndex)
-    return
+    if(this.mode == 'client'){
+      const EndIndex = startIndex + this.pageSize
+      this.page = this.data.slice(startIndex,EndIndex)
+      this.NofPages = Math.ceil(this.data.length / this.pageSize)
+
+    }else{
+      const requestObj:RequestDTO = {
+        sortColumnName:this.sorted.colName,
+        pageSize:this.options.pagination.pageSize,
+        sortDirection:this.sorted.direction,
+        searchWord:"",
+        currentPage:pg
+    }
+    console.log(requestObj)
+      this.gridService.GetObjects(requestObj,this.url).subscribe(
+        (res:ResponseDTO)=>{
+          this.page = res.data
+          this.pageNumber = res.page
+          this.NofPages = res.totalNumberOfPages
+
+        }
+      )
+      console.log(this.page)
+    }
+    return;
   }
 
-   this.page = this.data;
+  this.page = this.data
 
 }
 ngOnInit(): void {
+
+  this.sorted = {
+    colName:this.options.DefaultSortedColumn.colName,
+    direction:sortDirection.asc
+  }
   this.translate.addLangs(this.options.Translation.languages)
   this.translate.use(this.options.Translation.language) 
   this.pageSize = this.options.pagination.pageSize;
-  this.NofPages = Math.ceil(this.data.length / this.pageSize)
-  if(this.options.selection){
-    this.data = this.data.map((element:any)=> Object.assign({selected:false},element))
+  // if(this.options.selection){
+  //   this.data = this.data.map((element:any)=> Object.assign({selected:false},element))
 
-  }
+  // }
 
     this.DisplayPage(this.pageNumber)
     const SortedColumn =this.options.DefaultSortedColumn 
     
     if(SortedColumn){
         if(SortedColumn.direction == 'asc'){
-          this.sorted[SortedColumn.colName] = true;
+          this.sorted.direction = sortDirection.asc;
+          this.sorted.colName =SortedColumn.colName
         }
-        SortedColumn.dataType == 'number'?this.NumiricSort(SortedColumn.colName) : this.AlphapiticalSort(SortedColumn.colName)
+        if(this.mode == 'client'){
+          SortedColumn.dataType == 'number'?NumiricSort(this,SortedColumn.colName,this.sorted,this.data,this.DisplayPage) 
+          : AlphapiticalSort(this,SortedColumn.colName,this.sorted,this.data,this.DisplayPage)
+        }
+  
 
     }
 }
-ngOnChanges():void{
-  this.DisplayPage(this.pageNumber)
 
-
-
-}
 commitDelete(rowNumber:number){
   this.data = this.data.filter(
          (item:any)=>item.id != rowNumber 

@@ -6,7 +6,7 @@
     <!-- //    search : <input type="text" [(ngModel)]="searchVal" (input)="SearchGrid()"> -->
     <table class="table">
         <thead>
-            <app-header [headers]="options.headers" [SortDirections]="sorted" [options]="options" (TriggerAlphapiticalSort)="AlphapiticalSort($event)" (TriggerNumiricSort)="NumiricSort($event)"></app-header>
+            <app-header [headers]="options.headers" [SortDirections]="sorted" [options]="options" (TriggerSort)="Sort($event)"></app-header>
         </thead>
         <tbody>
             <app-body [data]="page" [options]="options" [PageNumber]="pageNumber" (ActionEmitter)="commitAction($event)" (SelectionCounterEvent)="ChangeCheckBoxStatus($event)"></app-body>

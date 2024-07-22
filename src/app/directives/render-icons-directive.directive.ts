@@ -1,5 +1,5 @@
 import { Directive, HostBinding, Input, HostListener } from '@angular/core';
-import { CLOSING } from '../../../node_modules/@types/ws';
+import { sortDirection } from '../../interfaces/RequestDTO';
 
 @Directive({
   selector: '[appRenderIcons]',
@@ -7,17 +7,17 @@ import { CLOSING } from '../../../node_modules/@types/ws';
 })
 export class RenderIconsDirective {
   @HostBinding('class') class:string = 'fa-solid fa-sort'
-  @Input() SortDirection!:any; 
+  @Input() SortDirection!:{colName:string ; direction:sortDirection}; 
+  @Input() CurrentColumnName!:string
   @HostListener('click') UpdateIcon(){
-    if(this.SortDirection == true){
+    if(this.SortDirection.colName == this.CurrentColumnName && this.SortDirection.direction == sortDirection.desc){
       this.class = 'fa-solid fa-sort-up'
     }
-    else if(this.SortDirection == false){
+    else if(this.SortDirection.colName == this.CurrentColumnName && this.SortDirection.direction == sortDirection.asc){
       this.class = 'fa-solid fa-sort-down'
     }else{
       this.class='fa-solid fa-sort'
     }
-    console.log('hi')
   }
   
  

@@ -22,6 +22,7 @@ export class HeaderComponent {
     @Input() mode!:string
 
   ColumnClicked(ColumnName:string){
+    console.log('from column event')
     const ColumnDataType = this.headers.find((a:any)=>a.name ==  ColumnName);
     if(ColumnDataType == undefined)
       return

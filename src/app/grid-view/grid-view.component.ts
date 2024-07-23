@@ -20,7 +20,7 @@ import { Filter } from '../../interfaces/Filter';
   templateUrl: './grid-view.component.html',
   styleUrl: './grid-view.component.css'
 })
-export class GridViewComponent implements OnInit ,OnChanges  {
+export class GridViewComponent implements OnInit   {
  
   @Input() options:Options|any;
   @Input () data:any;
@@ -55,7 +55,9 @@ export class GridViewComponent implements OnInit ,OnChanges  {
   }
 
   ngOnChanges(changes: SimpleChanges){
-    this.DisplayPage(0)
+      if(this.sorted != undefined){
+        this.DisplayPage(0)
+      }
   }  
 
 
@@ -93,8 +95,8 @@ DisplayPage(pg:number){
   this.page = this.data
 
 }
-ngOnInit(): void {
 
+ngOnInit(): void {
   this.sorted = {
     colName:this.options.DefaultSortedColumn.colName,
     direction:sortDirection.asc

@@ -63,19 +63,7 @@ export function   AlphapiticalSort(thisArg:any,colName:string,sorted:{colName:st
             sorted.direction = sortDirection.desc
 
         }
-    const requestObj:RequestDTO = {
-            sortColumnName:colName,
-            pageSize:options.pagination.pageSize,
-            sortDirection:sorted.direction,
-            currentPage:pageNumber,
-        }
-        service.GetObjects(requestObj,url).subscribe(
-            (data:ResponseDTO)=>{
-                page = data.data
-                pageNumber = data.page
-                NofPages = data.totalNumberOfPages
-              }
-        )
+ 
         DisplayCallback.call(thisArg,0)
 
     }

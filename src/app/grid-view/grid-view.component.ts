@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { BodyComponent } from './body/body.component';
 import { Options } from '../../interfaces/Options';
@@ -12,7 +12,7 @@ import { DaUser } from '../../DaUser';
 import {serverSort,AlphapiticalSort,NumiricSort}from '../../utils'
 import { RequestDTO, sortDirection } from '../../interfaces/RequestDTO';
 import { ResponseDTO } from '../../interfaces/ResponseDto';
-
+import { Filter } from '../../interfaces/Filter';
 @Component({
   selector: 'app-grid-view',
   standalone: true,
@@ -20,12 +20,14 @@ import { ResponseDTO } from '../../interfaces/ResponseDto';
   templateUrl: './grid-view.component.html',
   styleUrl: './grid-view.component.css'
 })
-export class GridViewComponent implements OnInit {
+export class GridViewComponent implements OnInit ,OnChanges  {
  
   @Input() options:Options|any;
   @Input () data:any;
   @Input() mode! : 'client' | 'server'
   @Input() url = ''
+  @Input() filters!:Filter[]
+  requestDto!:RequestDTO
   page:{}[] = []
   pageNumber = 0;
   isAllSelected!:boolean
@@ -33,7 +35,6 @@ export class GridViewComponent implements OnInit {
   NofPages:number = 0
   sorted!:{colName:string ; direction:sortDirection}
   SelectedCount: number = 0;
-  RequestDto!:RequestDTO
   constructor(private translate:TranslateService,private gridService:GridService){
       
   }
@@ -53,7 +54,9 @@ export class GridViewComponent implements OnInit {
 
   }
 
-    
+  ngOnChanges(changes: SimpleChanges){
+    this.DisplayPage(0)
+  }  
 
 
 
@@ -65,15 +68,16 @@ DisplayPage(pg:number){
       const EndIndex = startIndex + this.pageSize
       this.page = this.data.slice(startIndex,EndIndex)
       this.NofPages = Math.ceil(this.data.length / this.pageSize)
+      return
 
     }else{
       const requestObj:RequestDTO = {
-        sortColumnName:this.sorted.colName,
+        currentPage :pg,
         pageSize:this.options.pagination.pageSize,
+        sortColumnName:this.sorted.colName,
         sortDirection:this.sorted.direction,
-        currentPage:pg,
+        filters:this.filters
     }
-    console.log(requestObj)
       this.gridService.GetObjects(requestObj,this.url).subscribe(
         (res:ResponseDTO)=>{
           this.page = res.data
@@ -82,7 +86,6 @@ DisplayPage(pg:number){
 
         }
       )
-      console.log(this.page)
     }
     return;
   }

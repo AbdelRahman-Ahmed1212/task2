@@ -3,14 +3,29 @@ import { RouterOutlet } from '@angular/router';
 import { GridViewComponent } from './grid-view/grid-view.component';
 import gridOptions from '../gridOptions'
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Filter } from '../interfaces/Filter';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,GridViewComponent,CommonModule],
+  imports: [RouterOutlet,GridViewComponent,CommonModule,FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  SearchObj:any = {};
+  filters:Filter[] = []
+  Search(){
+    this.filters = []
+    for (const obj in this.SearchObj) {
+          if(!this.SearchObj[obj].match("^$")){
+            this.filters.push({FieldName:obj , FilterText:this.SearchObj[obj]})
+
+          }
+          
+    } 
+  }
+
     data:any =[
       {
         id:1,

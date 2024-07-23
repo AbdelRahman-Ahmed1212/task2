@@ -1,7 +1,7 @@
 <div>
     <div *ngFor="let header of GridViewOptions.headers">
-        {{header.name}}: <input type="text" />
+        {{header.name}}: <input type="text" [(ngModel)]="SearchObj[header.name]" />
     </div>
-    <input type="button" value="filter" />
+    <input type="button" value="filter" (click)="Search()" />
 </div>
-<app-grid-view [options]="GridViewOptions" [data]="data" mode="server" url="http://localhost:5054/User"></app-grid-view>
+<app-grid-view [options]="GridViewOptions" [data]="data" [filters]="filters" mode="server" url="http://localhost:5054/User"></app-grid-view>

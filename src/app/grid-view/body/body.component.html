@@ -6,6 +6,12 @@
         {{item.value}}
     </td>
     <td>
+        <label class="switch">
+                    <input type="checkbox" >
+                    <span class="slider round"></span>
+            </label>
+    </td>
+    <td>
         <button *ngFor="let Action of options.Actions" [disabled]="!Action.Rule(row)" (click)="commitAction(Action.Name,row.id)">{{Action.Name}}</button>
     </td>
 </tr>

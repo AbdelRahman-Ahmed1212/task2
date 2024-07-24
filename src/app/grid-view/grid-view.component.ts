@@ -149,12 +149,16 @@ getString(input:any)
 }
 SelectAll(data:boolean){
   this.selectionObj.AllSelected = data
-  this.selectionObj.AllSelectedDirty = true
   if(data){
     this.selectionObj.Selected.clear()
+    this.selectionObj.DeSelected.clear()
     
   }else{
     this.selectionObj.DeSelected.clear()
+    this.selectionObj.Selected.clear()
+    this.selectionObj.AllSelectedDirty = false
+
+
   }
   this.selectionObj = {
     ...this.selectionObj,
@@ -167,6 +171,9 @@ SelectAll(data:boolean){
   user toggle the box not when value changed  
 */
 ItemSelected(obj:{id:number,checked:boolean}){
+  if(this.selectionObj.AllSelected == true && obj.checked == false){
+    this.selectionObj.AllSelectedDirty = true
+  }
    if(obj.checked){
      this.selectionObj.Selected.add(obj.id)
      this.selectionObj.DeSelected.delete(obj.id)
@@ -175,22 +182,23 @@ ItemSelected(obj:{id:number,checked:boolean}){
     this.selectionObj.DeSelected.add(obj.id)
    
    }
+    if(this.selectionObj.Selected.size == this.itemsCount ||
+        (this.selectionObj.AllSelectedDirty && this.selectionObj.DeSelected.size == 0)
+    ){
+      this.selectionObj = {
+        ...this.selectionObj,
+        AllSelected:true,
+        AllSelectedDirty:false
+      }
+    }else{
+      this.selectionObj = {
+        ...this.selectionObj,
+        AllSelected:false,
+      }
+    } 
+      
  
-  if(this.selectionObj.Selected.size == this.itemsCount || 
-    (this.selectionObj.DeSelected.size == 0 && this.selectionObj.AllSelectedDirty)
-  ){
-    this.selectionObj = {
-      ...this.selectionObj , 
-      AllSelected :true,
-    }
-  }else{
-    this.selectionObj = {
-      ...this.selectionObj ,
-      AllSelected:false 
-    }
-  }
-  console.log(this.selectionObj)
-
+  
 }
 
 commitAction(data:any){

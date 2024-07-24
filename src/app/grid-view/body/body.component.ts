@@ -38,17 +38,15 @@ export class BodyComponent{
       }
       
       isSelected(id:number){
-        debugger
-          if(this.selectionObj.AllSelected)
-            return true
-          if(this.selectionObj.DeSelected.has(id))
-            return false
-            if(this.selectionObj.AllSelectedDirty && this.selectionObj.DeSelected.size == 0)
-              return false
-            if(this.selectionObj.AllSelectedDirty && !this.selectionObj.DeSelected.has(id))
-              return true
+        console.log(this.selectionObj)
+            if(this.selectionObj.AllSelected)
+                return true;
+            
+            if(this.selectionObj.AllSelectedDirty  && !this.selectionObj.DeSelected.has(id) )
+                return true
             if(this.selectionObj.Selected.has(id))
               return true
+            
             return false
 
 

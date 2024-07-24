@@ -18,6 +18,7 @@ export class BodyComponent{
       @Output() SelectionCounterEvent = new EventEmitter<string>()
       @Output() ItemSelected = new EventEmitter<{id:number,checked:boolean}>()
       @Input() selectionObj!:{AllSelected:boolean,Selected:Set<number>,DeSelected:Set<number>,AllSelectedDirty:boolean}
+      @Output() TriggerToggle = new EventEmitter<{id:number , status:boolean}>()
 
     // this function is to used to return 0 to prevent returnZeroToPreventSort from sorting our array objects
       returnZeroToPreventSort(){
@@ -38,7 +39,6 @@ export class BodyComponent{
       }
       
       isSelected(id:number){
-        console.log(this.selectionObj)
             if(this.selectionObj.AllSelected)
                 return true;
             
@@ -50,5 +50,8 @@ export class BodyComponent{
             return false
 
 
+      }
+      toggleChanged(event:any,id:number){
+        this.TriggerToggle.emit({id:id,status:(event.target as HTMLInputElement).checked})
       }
 }

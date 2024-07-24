@@ -167,8 +167,8 @@ SelectAll(data:boolean){
   console.log(this.selectionObj)
 }
 /*
-  I called select all inside select all inside ItemSelected because input or change event on checkbox don't fire until
-  user toggle the box not when value changed  
+ please note that this selection algorithm can select all data not yet retreived from server 
+ not only the current page and this works very fine similar to front end approach
 */
 ItemSelected(obj:{id:number,checked:boolean}){
   if(this.selectionObj.AllSelected == true && obj.checked == false){

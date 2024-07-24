@@ -1,5 +1,8 @@
 <tr>
-    <th *ngIf="options.selection" [ngStyle]="{display:options.selection?'table-cell':'none'}">Select</th>
+    <th *ngIf="options.selection" [ngStyle]="{display:options.selection?'table-cell':'none'}">
+        <input type="checkbox" (input)="SelectAll($event)" [(ngModel)]="selectionObj.AllSelected" />
+
+    </th>
     <th *ngFor="let header of headers let i = index ">
         <span *ngIf="header.sortable" (click)="ColumnClicked(header.name)">
             {{header.name | translate}}

@@ -7,7 +7,7 @@ const GridViewOptions:Options = {
       startPage:1
     },
     search:false, 
-    selection:false,
+    selection:true,
    
     headers:[
       {name:'id',sortable:true,dataType:'number'},
@@ -27,13 +27,13 @@ const GridViewOptions:Options = {
     {
         Name:'Delete',
         Rule:(obj:any)=>{
-            return obj['Active'] == false
+            return obj['id'] > 15
         }
     },
     {
       Name:'Edit',
       Rule:(obj:any)=>{
-          return obj['Active'] == true
+          return obj['id'] <=15
       }
   },
   ],

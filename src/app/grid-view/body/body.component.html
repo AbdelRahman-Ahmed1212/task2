@@ -1,11 +1,13 @@
 <tr *ngFor="let row of data">
-
+    <td>
+        <input type="checkbox" (change)="ToggleCheckBox($event,row.id)" [checked]="isSelected(row.id)" [id]="row.id" />
+    </td>
     <td *ngFor="let item of row|keyvalue:returnZeroToPreventSort let i = index">
-        @if(item.key == 'selected'){
-        <input type="checkbox" (change)="ToggleCheckBox(row.id)" [checked]="row.selected" [id]="row.id" /> }@else{ {{item.value}} }
+        {{item.value}}
     </td>
     <td>
         <button *ngFor="let Action of options.Actions" [disabled]="!Action.Rule(row)" (click)="commitAction(Action.Name,row.id)">{{Action.Name}}</button>
     </td>
 </tr>
+
 <div> displaying page No. {{PageNumber+1}}</div>

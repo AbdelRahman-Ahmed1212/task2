@@ -1,4 +1,4 @@
-import { Component, Input, Output,EventEmitter } from '@angular/core';
+import { Component, Input, Output,EventEmitter, OnChanges, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms'
 import { Options } from '../../../interfaces/Options';
@@ -10,12 +10,14 @@ import { CLOSING } from '../../../../node_modules/@types/ws';
   templateUrl: './body.component.html',
   styleUrl: './body.component.css'
 })
-export class BodyComponent {
+export class BodyComponent{
       @Input() data:any
       @Input() options!:Options
       @Input() PageNumber:number = 1;
       @Output() ActionEmitter = new EventEmitter<any>()
       @Output() SelectionCounterEvent = new EventEmitter<string>()
+      @Output() ItemSelected = new EventEmitter<{id:number,checked:boolean}>()
+      @Input() selectionObj!:{AllSelected:boolean,Selected:Set<number>,DeSelected:Set<number>,AllSelectedDirty:boolean}
 
     // this function is to used to return 0 to prevent returnZeroToPreventSort from sorting our array objects
       returnZeroToPreventSort(){
@@ -29,21 +31,26 @@ export class BodyComponent {
             }})
         }
       }
-     
-      ToggleCheckBox(id:number){
-       const  selectedElement =  this.data.find((a:any)=>a.id == id)
-       selectedElement.selected = !selectedElement.selected
-       if(selectedElement.selected){
-          this.SelectionCounterEvent.emit('checked')
-
-      }else{
-        this.SelectionCounterEvent.emit('unchecked')
-
-
-       }
-       console.log('checkbox toggled')
-       
-
+    
+      ToggleCheckBox(event:any,id:number){  
+        
+        this.ItemSelected.emit({id:id,checked:(event.target as HTMLInputElement).checked})
       }
       
+      isSelected(id:number){
+        debugger
+          if(this.selectionObj.AllSelected)
+            return true
+          if(this.selectionObj.DeSelected.has(id))
+            return false
+            if(this.selectionObj.AllSelectedDirty && this.selectionObj.DeSelected.size == 0)
+              return false
+            if(this.selectionObj.AllSelectedDirty && !this.selectionObj.DeSelected.has(id))
+              return true
+            if(this.selectionObj.Selected.has(id))
+              return true
+            return false
+
+
+      }
 }

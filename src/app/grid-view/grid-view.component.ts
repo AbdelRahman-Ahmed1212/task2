@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ControlsComponent } from './Controls/controls/controls.component';
 import { GridService } from '../Services/grid.service';
-import { DaUser } from '../../DaUser';
 import {serverSort,AlphapiticalSort,NumiricSort}from '../../utils'
 import { RequestDTO, sortDirection } from '../../interfaces/RequestDTO';
 import { ResponseDTO } from '../../interfaces/ResponseDto';
@@ -27,16 +26,23 @@ export class GridViewComponent implements OnInit   {
   @Input() mode! : 'client' | 'server'
   @Input() url = ''
   @Input() filters!:Filter[]
+  selectionObj!:{AllSelected:boolean,Selected:Set<number>,DeSelected:Set<number>,AllSelectedDirty:boolean}
   requestDto!:RequestDTO
   page:{}[] = []
   pageNumber = 0;
-  isAllSelected!:boolean
   pageSize!:number; 
   NofPages:number = 0
+  itemsCount:number = 0 
   sorted!:{colName:string ; direction:sortDirection}
   SelectedCount: number = 0;
+  Loading = true
   constructor(private translate:TranslateService,private gridService:GridService){
-      
+        this.selectionObj = {
+          AllSelected  :false,
+          Selected:new Set([]),
+          DeSelected:new Set([]),
+          AllSelectedDirty:false
+        }
   }
 
   Sort(obj:{mode:string,colName:string}){
@@ -63,6 +69,7 @@ export class GridViewComponent implements OnInit   {
 
 
 DisplayPage(pg:number){
+  console.log(this.selectionObj)
   if(this.options.pagination.paging){
     this.pageNumber = pg;
     const startIndex = pg * this.pageSize;
@@ -85,7 +92,7 @@ DisplayPage(pg:number){
           this.page = res.data
           this.pageNumber = res.page
           this.NofPages = res.totalNumberOfPages
-
+          this.itemsCount = res.itemsCount
         }
       )
     }
@@ -138,43 +145,56 @@ commitDelete(rowNumber:number){
 /// helper function to convert property name from type unknow to string to index the object
 getString(input:any)
 {
-
   return String(input);
 }
-deleteSelected(){
-  if(confirm("do you really want to delete selected rows")){
-    this.data = this.data.filter(
-      (a:any)=> !a.selected
-    ) 
-    this.DisplayPage(this.pageNumber)
-    this.NofPages = Math.ceil(this.data.length / this.pageSize)
-
+SelectAll(data:boolean){
+  this.selectionObj.AllSelected = data
+  this.selectionObj.AllSelectedDirty = true
+  if(data){
+    this.selectionObj.Selected.clear()
+    
+  }else{
+    this.selectionObj.DeSelected.clear()
   }
+  this.selectionObj = {
+    ...this.selectionObj,
+    
+  } 
+  console.log(this.selectionObj)
 }
+/*
+  I called select all inside select all inside ItemSelected because input or change event on checkbox don't fire until
+  user toggle the box not when value changed  
+*/
+ItemSelected(obj:{id:number,checked:boolean}){
+   if(obj.checked){
+     this.selectionObj.Selected.add(obj.id)
+     this.selectionObj.DeSelected.delete(obj.id)
+   }else{
+    this.selectionObj.Selected.delete(obj.id)
+    this.selectionObj.DeSelected.add(obj.id)
+   
+   }
+ 
+  if(this.selectionObj.Selected.size == this.itemsCount || 
+    (this.selectionObj.DeSelected.size == 0 && this.selectionObj.AllSelectedDirty)
+  ){
+    this.selectionObj = {
+      ...this.selectionObj , 
+      AllSelected :true,
+    }
+  }else{
+    this.selectionObj = {
+      ...this.selectionObj ,
+      AllSelected:false 
+    }
+  }
+  console.log(this.selectionObj)
 
+}
 
 commitAction(data:any){
-  console.log(data)
 }
-toggleAllBoxs(SelectAllCheckBox:any){
-      const status = (SelectAllCheckBox as HTMLInputElement).checked
-      this.data.forEach((element:any) => {
-          element.selected = status
-      });
-      this.SelectedCount = this.data.length 
-}
-ChangeCheckBoxStatus(status:string){
-    if(status == 'checked'){
-      this.SelectedCount ++;
-    }else{
-      this.SelectedCount --;
-    }
-    if(this.SelectedCount == this.data.length){
-      this.isAllSelected = true
-    }else{
-      this.isAllSelected = false
-    }
-    console.log(this.SelectedCount)
-}
+
 
 }

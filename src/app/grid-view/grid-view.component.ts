@@ -168,7 +168,7 @@ SelectAll(data:boolean){
 }
 /*
  please note that this selection algorithm can select all data not yet retreived from server 
- not only the current page and this works very fine similar to front end approach
+ not only the current page and this works very fine similar to frontend approach
 */
 ItemSelected(obj:{id:number,checked:boolean}){
   if(this.selectionObj.AllSelected == true && obj.checked == false){

@@ -13,6 +13,7 @@ import { RequestDTO, sortDirection } from '../../interfaces/RequestDTO';
 import { ResponseDTO } from '../../interfaces/ResponseDto';
 import { Filter } from '../../interfaces/Filter';
 import { ValidateSearch } from '../directives/validate-search.directive';
+import { Action } from '../../interfaces/Action';
 @Component({
   selector: 'app-grid-view',
   standalone: true,
@@ -34,14 +35,14 @@ export class GridViewComponent implements OnInit   {
   pageSize!:number; 
   NofPages:number = 0
   itemsCount:number = 0 
-  Selected:Set<any>;
+  selectedObjects:any
   sorted!:{colName:string ; direction:sortDirection}
   SelectedCount: number = 0;
   Loading = true;
   SearchObj:any = {}
   AllSelected!:boolean
   constructor(private translate:TranslateService,private gridService:GridService){
-        this.Selected = new Set<any>()
+    this.selectedObjects = {}
   }
 
   Sort(obj:{mode:string,colName:string}){
@@ -70,11 +71,18 @@ export class GridViewComponent implements OnInit   {
      this.DisplayPage(0)
 
   }
-
-
+  /// looking for a better way to achieve this because it has bad berformance
+  AllPageSelected(){
+    debugger
+    let selectedObjectsCount = Object.values(this.selectedObjects).length;
+    
+    if(selectedObjectsCount == 0) return false
+   return this.page.every((obj:any)=>{
+        return this.selectedObjects[ obj[this.uniqueField]] != undefined 
+    })
+     
+  }
 DisplayPage(pg:number){
-    this.Selected.clear()
-    this.AllSelected = false
   if(this.options.pagination.paging){
     this.pageNumber = pg;
     const startIndex = pg * this.pageSize;
@@ -98,14 +106,17 @@ DisplayPage(pg:number){
           this.pageNumber = res.page
           this.NofPages = res.totalNumberOfPages
           this.itemsCount = res.itemsCount
+          this.AllSelected = this.AllPageSelected()
 
         }
       )
     }
+
     return;
   }
 
   this.page = this.data
+  this.AllSelected = this.AllPageSelected()
 
 }
 
@@ -165,12 +176,22 @@ getString(input:any)
 SelectAll(data:boolean){
        if(data){
          this.page.forEach((element:any) => {
-              this.Selected.add(element[this.uniqueField])
+              if(this.selectedObjects!= undefined)
+              this.selectedObjects[element[this.uniqueField]] = {row:this.page.find((item:any)=>item[this.uniqueField] == element[this.uniqueField]) , pageNumber:this.pageNumber}
+
          });
          this.AllSelected = true
+         console.log(this.selectedObjects)
        }else{
-         this.Selected.clear()
          this.AllSelected = false
+         this.page.forEach(
+           (element:any)=>{
+             if(this.selectedObjects != undefined && this.selectedObjects[element[this.uniqueField]].pageNumber == this.pageNumber
+            ){
+               delete this.selectedObjects[element[this.uniqueField]]
+             }
+           }
+         )
        }
 
 
@@ -179,39 +200,16 @@ SelectAll(data:boolean){
  please note that this selection algorithm can select all data not yet retreived from server 
  not only the current page and this works very fine similar to frontend approach
 */
-ItemSelected(obj:{uniqueFieldValue:any,checked:boolean}){
+ItemSelected(obj:{uniqueFieldValue:number|string,checked:boolean}){
 
 
-  // if(this.selectionObj.AllSelected == true && obj.checked == false){
-  //   this.selectionObj.AllSelectedDirty = true
-  // }
-  //  if(obj.checked){
-  //    this.selectionObj.Selected.add(obj.id)
-  //    this.selectionObj.DeSelected.delete(obj.id)
-  //  }else{
-  //   this.selectionObj.Selected.delete(obj.id)
-  //   this.selectionObj.DeSelected.add(obj.id)
-   
-  //  }
-  //   if(this.selectionObj.Selected.size == this.itemsCount ||
-  //       (this.selectionObj.AllSelectedDirty && this.selectionObj.DeSelected.size == 0)
-  //   ){
-  //     this.selectionObj = {
-  //       ...this.selectionObj,
-  //       AllSelected:true,
-  //       AllSelectedDirty:false
-  //     }
-  //   }else{
-  //     this.selectionObj = {
-  //       ...this.selectionObj,
-  //       AllSelected:false,
-  //     }
-  //   } 
-      obj.checked ? this.Selected.add(obj.uniqueFieldValue) : this.Selected.delete(obj.uniqueFieldValue)
-      if(this.Selected.size == this.page.length)
-          this.AllSelected = true
-      else
-          this.AllSelected = false
+      if(obj.checked && this.selectedObjects != undefined){
+        this.selectedObjects[obj.uniqueFieldValue] = {row:this.page.find((item:any)=>item[this.uniqueField] == obj.uniqueFieldValue) , pageNumber:this.pageNumber}
+      }else{
+        if(this.selectedObjects != undefined)
+        delete this.selectedObjects[obj.uniqueFieldValue]
+      }
+  
  
   
 }

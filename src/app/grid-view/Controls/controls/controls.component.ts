@@ -13,15 +13,10 @@ import { Options } from '../../../../interfaces/Options';
 export class ControlsComponent {
       @Input() Data:any
       @Input() Actions!:Action[]
-      @Input() Selected!:Set<any>
+      @Input() selectedObjects:any
       @Input() options!:Options
 
   IsActiveControl(action:Action):boolean{
-    debugger
-      let filteredBasedOnSelection = this.Data.filter((obj:any)=>{
-        return this.Selected.has(obj[this.options.uniqueField])
-      })  
-      if(filteredBasedOnSelection.length == 0) return false;    
-      return filteredBasedOnSelection.every(function(obj:any){return action.Rule(obj)})
+      return Object.values(this.selectedObjects).every((data:any)=>action.Rule(data.row))
   }  
 }

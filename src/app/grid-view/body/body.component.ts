@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms'
 import { Options } from '../../../interfaces/Options';
 import { CLOSING } from '../../../../node_modules/@types/ws';
+import { Action } from '../../../interfaces/Action';
 @Component({
   selector: 'app-body',
   standalone: true,
@@ -19,7 +20,7 @@ export class BodyComponent{
       @Output() ItemSelected = new EventEmitter<{uniqueFieldValue:any,checked:boolean}>()
       @Input() selectionObj!:{AllSelected:boolean,Selected:Set<number>,DeSelected:Set<number>,AllSelectedDirty:boolean}
       @Output() TriggerToggle = new EventEmitter<{uniqueFieldValue:any , status:boolean}>()
-      @Input() Selected!:Set<any>;
+      @Input() selectedObjects:any
     // this function is to used to return 0 to prevent returnZeroToPreventSort from sorting our array objects
       returnZeroToPreventSort(){
         return 0;
@@ -39,7 +40,8 @@ export class BodyComponent{
       }
       
       isSelected(uniqueFieldValue:any){
-           return this.Selected.has(uniqueFieldValue)
+           return  this.selectedObjects && this.selectedObjects[uniqueFieldValue] != undefined
+
       }
       toggleChanged(event:any,val:any){
         this.TriggerToggle.emit({uniqueFieldValue:val,status:(event.target as HTMLInputElement).checked})

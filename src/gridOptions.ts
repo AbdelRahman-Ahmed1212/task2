@@ -16,6 +16,7 @@ const GridViewOptions:Options = {
       {name:'Email',sortable:true,dataType:'string'},
       {name:'Phone',sortable:true,dataType:'string'},
       {name:'DOB',sortable:true,dataType:'string'},
+      {name:'image',sortable:false,dataType:'image'},
       // {name:'id',sortable:true,dataType:'number'},
       // {name:'name',sortable:true,dataType:'string'},
       // {name:'age',sortable:true,dataType:'number'},

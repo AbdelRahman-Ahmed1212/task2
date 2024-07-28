@@ -13,7 +13,6 @@ import { RequestDTO, sortDirection } from '../../interfaces/RequestDTO';
 import { ResponseDTO } from '../../interfaces/ResponseDto';
 import { Filter } from '../../interfaces/Filter';
 import { ValidateSearch } from '../directives/validate-search.directive';
-import { json } from 'stream/consumers';
 @Component({
   selector: 'app-grid-view',
   standalone: true,

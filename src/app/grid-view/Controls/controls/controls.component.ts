@@ -21,7 +21,6 @@ export class ControlsComponent {
       let filteredBasedOnSelection = this.Data.filter((obj:any)=>{
         return this.Selected.has(obj[this.options.uniqueField])
       })  
-      console.log(filteredBasedOnSelection)
       if(filteredBasedOnSelection.length == 0) return false;    
       return filteredBasedOnSelection.every(function(obj:any){return action.Rule(obj)})
   }  

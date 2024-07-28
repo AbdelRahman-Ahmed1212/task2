@@ -8,7 +8,7 @@
     </td>
     <td>
         <label class="switch">
-                    <input type="checkbox" [disabled]="options.ToggleRule(row)" [checked]="options.ToggleRule(row)" (change)="toggleChanged($event,row[options.uniqueField])">
+                    <input type="checkbox"  [checked]="options.ToggleRule(row)" (change)="toggleChanged($event,row[options.uniqueField])">
                     <span class="slider round"></span>
             </label>
     </td>

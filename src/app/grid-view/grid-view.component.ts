@@ -73,7 +73,7 @@ export class GridViewComponent implements OnInit   {
   }
   /// looking for a better way to achieve this because it has bad berformance
   AllPageSelected(){
-    debugger
+    
     let selectedObjectsCount = Object.values(this.selectedObjects).length;
     
     if(selectedObjectsCount == 0) return false
@@ -178,7 +178,7 @@ SelectAll(data:boolean){
          this.page.forEach((element:any) => {
               if(this.selectedObjects!= undefined)
               this.selectedObjects[element[this.uniqueField]] = {row:this.page.find((item:any)=>item[this.uniqueField] == element[this.uniqueField]) , pageNumber:this.pageNumber}
-
+          
          });
          this.AllSelected = true
          console.log(this.selectedObjects)

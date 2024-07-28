@@ -17,6 +17,9 @@ export class ControlsComponent {
       @Input() options!:Options
 
   IsActiveControl(action:Action):boolean{
-      return Object.values(this.selectedObjects).every((data:any)=>action.Rule(data.row))
+      const selectedObjects = Object.values(this.selectedObjects)
+      if(selectedObjects.length == 0)
+        return false
+      return selectedObjects.every((data:any)=>action.Rule(data.row))
   }  
 }

@@ -16,10 +16,10 @@ export class BodyComponent{
       @Input() PageNumber:number = 1;
       @Output() ActionEmitter = new EventEmitter<any>()
       @Output() SelectionCounterEvent = new EventEmitter<string>()
-      @Output() ItemSelected = new EventEmitter<{id:number,checked:boolean}>()
+      @Output() ItemSelected = new EventEmitter<{uniqueFieldValue:any,checked:boolean}>()
       @Input() selectionObj!:{AllSelected:boolean,Selected:Set<number>,DeSelected:Set<number>,AllSelectedDirty:boolean}
-      @Output() TriggerToggle = new EventEmitter<{id:number , status:boolean}>()
-
+      @Output() TriggerToggle = new EventEmitter<{uniqueFieldValue:any , status:boolean}>()
+      @Input() Selected!:Set<any>;
     // this function is to used to return 0 to prevent returnZeroToPreventSort from sorting our array objects
       returnZeroToPreventSort(){
         return 0;
@@ -33,25 +33,15 @@ export class BodyComponent{
         }
       }
     
-      ToggleCheckBox(event:any,id:number){  
+      ToggleCheckBox(event:any,val:any){  
         
-        this.ItemSelected.emit({id:id,checked:(event.target as HTMLInputElement).checked})
+        this.ItemSelected.emit({uniqueFieldValue:val,checked:(event.target as HTMLInputElement).checked})
       }
       
-      isSelected(id:number){
-            if(this.selectionObj.AllSelected)
-                return true;
-            
-            if(this.selectionObj.AllSelectedDirty  && !this.selectionObj.DeSelected.has(id) )
-                return true
-            if(this.selectionObj.Selected.has(id))
-              return true
-            
-            return false
-
-
+      isSelected(uniqueFieldValue:any){
+           return this.Selected.has(uniqueFieldValue)
       }
-      toggleChanged(event:any,id:number){
-        this.TriggerToggle.emit({id:id,status:(event.target as HTMLInputElement).checked})
+      toggleChanged(event:any,val:any){
+        this.TriggerToggle.emit({uniqueFieldValue:val,status:(event.target as HTMLInputElement).checked})
       }
 }

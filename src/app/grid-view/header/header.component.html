@@ -1,6 +1,6 @@
 <tr>
     <th *ngIf="options.selection" [ngStyle]="{display:options.selection?'table-cell':'none'}">
-        <input type="checkbox" (input)="SelectAll($event)" [(ngModel)]="selectionObj.AllSelected" />
+        <input type="checkbox" (input)="SelectAll($event)" [(ngModel)]="AllSelected" />
 
     </th>
     <th *ngFor="let header of headers let i = index ">
@@ -16,7 +16,8 @@
         Toggle
     </th>
     <th>
-        {{'Actions' | translate}}
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+
     </th>
 
 </tr>

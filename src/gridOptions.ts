@@ -8,7 +8,7 @@ const GridViewOptions:Options = {
     },
     search:false, 
     selection:true,
-   
+    uniqueField:'id',
     headers:[
       {name:'id',sortable:true,dataType:'number'},
       {name:'FirstName',sortable:true,dataType:'string'},
@@ -26,17 +26,16 @@ const GridViewOptions:Options = {
     Actions:[
     {
         Name:'Delete',
-        Rule:(obj:any)=>{
-            return obj['id'] > 15
-        }
+        Rule:(obj:any)=> obj['id'] > 15
+        
     },
     {
       Name:'Edit',
-      Rule:(obj:any)=>{
-          return obj['id'] <=15
-      }
-  },
+      Rule:(obj:any)=> obj['id'] <=15
+     
+  }
   ],
+  ToggleRule:(obj:any)=> obj['id'] > 14,
   DefaultSortedColumn:{
       colName:'id',
       direction:'asc',

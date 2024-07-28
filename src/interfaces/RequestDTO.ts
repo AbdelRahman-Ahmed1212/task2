@@ -5,7 +5,7 @@ export interface RequestDTO{
     sortDirection: sortDirection,
     currentPage: number,
     pageSize: number,
-    filters:Filter[]
+    searchObj:any
 
 }
 export enum sortDirection{

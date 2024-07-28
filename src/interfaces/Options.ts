@@ -7,7 +7,8 @@ export interface Options{
         paging:boolean,
         pageSize:number,
         startPage:number,
-    } // turn pagination on or off
+    } // turn pagination on or off,
+    uniqueField:string
     selection:boolean // turn selection on or of
     DefaultSortedColumn:{colName:string ,direction:string,dataType:string} // column name to be ascending or descending sorted
     headers:{name:string,sortable:boolean,dataType:string} [] // set the names for our columns and set also if a column is sortable or not
@@ -18,7 +19,8 @@ export interface Options{
         languages:string[]
         language:string,
         TranslationPath:string
-    }
+    },
+    ToggleRule:(obj:any)=>boolean
 
 
 }

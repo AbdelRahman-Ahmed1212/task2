@@ -1,12 +1,18 @@
 <div>
-    <app-controls [Data]="data" [Actions]="options.Actions"></app-controls>
+    <div>
+        <div *ngFor="let header of options.headers">
+            {{header.name}}: <input type="text" [(ngModel)]="SearchObj[header.name]" />
+        </div>
+        <input type="button" value="search" (click)="Search()" />
+    </div>
+    <app-controls [Data]="page" [Actions]="options.Actions" [options]="options" [Selected]="Selected"></app-controls>
     <!-- //    search : <input type="text" [(ngModel)]="searchVal" (input)="SearchGrid()"> -->
     <table class="table">
         <thead>
-            <app-header [headers]="options.headers" [selectionObj]="selectionObj" [SortDirections]="sorted" (TriggerSelectAll)="SelectAll($event)" [options]="options" (TriggerSort)="Sort($event)"></app-header>
+            <app-header [headers]="options.headers" [AllSelected]="AllSelected" [SortDirections]="sorted" (TriggerSelectAll)="SelectAll($event)" [options]="options" (TriggerSort)="Sort($event)"></app-header>
         </thead>
         <tbody>
-            <app-body [data]="page" [options]="options" (ItemSelected)="ItemSelected($event)" [PageNumber]="pageNumber" [selectionObj]="selectionObj" (ActionEmitter)="commitAction($event)"></app-body>
+            <app-body [data]="page" [options]="options" [Selected]="Selected" (ItemSelected)="ItemSelected($event)" [PageNumber]="pageNumber" (ActionEmitter)="commitAction($event)"></app-body>
         </tbody>
     </table>
     <app-paginator [NumberOfPages]="NofPages" *ngIf="options.pagination.paging" (PageNavigate)="DisplayPage($event)"></app-paginator>

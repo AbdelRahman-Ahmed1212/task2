@@ -12,10 +12,12 @@ import {serverSort,AlphapiticalSort,NumiricSort}from '../../utils'
 import { RequestDTO, sortDirection } from '../../interfaces/RequestDTO';
 import { ResponseDTO } from '../../interfaces/ResponseDto';
 import { Filter } from '../../interfaces/Filter';
+import { ValidateSearch } from '../directives/validate-search.directive';
+import { json } from 'stream/consumers';
 @Component({
   selector: 'app-grid-view',
   standalone: true,
-  imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule,TranslateModule,ControlsComponent],
+  imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule,TranslateModule,ControlsComponent,ValidateSearch],
   templateUrl: './grid-view.component.html',
   styleUrl: './grid-view.component.css'
 })
@@ -26,23 +28,21 @@ export class GridViewComponent implements OnInit   {
   @Input() mode! : 'client' | 'server'
   @Input() url = ''
   @Input() filters!:Filter[]
-  selectionObj!:{AllSelected:boolean,Selected:Set<number>,DeSelected:Set<number>,AllSelectedDirty:boolean}
+  uniqueField!:string
   requestDto!:RequestDTO
   page:{}[] = []
   pageNumber = 0;
   pageSize!:number; 
   NofPages:number = 0
   itemsCount:number = 0 
+  Selected:Set<any>;
   sorted!:{colName:string ; direction:sortDirection}
   SelectedCount: number = 0;
-  Loading = true
+  Loading = true;
+  SearchObj:any = {}
+  AllSelected!:boolean
   constructor(private translate:TranslateService,private gridService:GridService){
-        this.selectionObj = {
-          AllSelected  :false,
-          Selected:new Set([]),
-          DeSelected:new Set([]),
-          AllSelectedDirty:false
-        }
+        this.Selected = new Set<any>()
   }
 
   Sort(obj:{mode:string,colName:string}){
@@ -66,10 +66,16 @@ export class GridViewComponent implements OnInit   {
       }
   }  
 
+  Search(){
+
+     this.DisplayPage(0)
+
+  }
 
 
 DisplayPage(pg:number){
-  console.log(this.selectionObj)
+    this.Selected.clear()
+    this.AllSelected = false
   if(this.options.pagination.paging){
     this.pageNumber = pg;
     const startIndex = pg * this.pageSize;
@@ -85,7 +91,7 @@ DisplayPage(pg:number){
         pageSize:this.options.pagination.pageSize,
         sortColumnName:this.sorted.colName,
         sortDirection:this.sorted.direction,
-        filters:this.filters
+        searchObj:JSON.stringify(this.SearchObj)
     }
       this.gridService.GetObjects(requestObj,this.url).subscribe(
         (res:ResponseDTO)=>{
@@ -93,6 +99,7 @@ DisplayPage(pg:number){
           this.pageNumber = res.page
           this.NofPages = res.totalNumberOfPages
           this.itemsCount = res.itemsCount
+
         }
       )
     }
@@ -108,6 +115,15 @@ ngOnInit(): void {
     colName:this.options.DefaultSortedColumn.colName,
     direction:sortDirection.asc
   }
+  //initializing the search object
+  this.options.headers.forEach(
+    (obj:any)=>{
+          this.SearchObj[obj.name] = ''    
+    }
+  )
+
+  ///
+  this.uniqueField = this.options.uniqueField
   this.translate.addLangs(this.options.Translation.languages)
   this.translate.use(this.options.Translation.language) 
   this.pageSize = this.options.pagination.pageSize;
@@ -148,55 +164,55 @@ getString(input:any)
   return String(input);
 }
 SelectAll(data:boolean){
-  this.selectionObj.AllSelected = data
-  if(data){
-    this.selectionObj.Selected.clear()
-    this.selectionObj.DeSelected.clear()
-    
-  }else{
-    this.selectionObj.DeSelected.clear()
-    this.selectionObj.Selected.clear()
-    this.selectionObj.AllSelectedDirty = false
+       if(data){
+         this.page.forEach((element:any) => {
+              this.Selected.add(element[this.uniqueField])
+         });
+         this.AllSelected = true
+       }else{
+         this.Selected.clear()
+         this.AllSelected = false
+       }
 
 
-  }
-  this.selectionObj = {
-    ...this.selectionObj,
-    
-  } 
-  console.log(this.selectionObj)
 }
 /*
  please note that this selection algorithm can select all data not yet retreived from server 
  not only the current page and this works very fine similar to frontend approach
 */
-ItemSelected(obj:{id:number,checked:boolean}){
-  if(this.selectionObj.AllSelected == true && obj.checked == false){
-    this.selectionObj.AllSelectedDirty = true
-  }
-   if(obj.checked){
-     this.selectionObj.Selected.add(obj.id)
-     this.selectionObj.DeSelected.delete(obj.id)
-   }else{
-    this.selectionObj.Selected.delete(obj.id)
-    this.selectionObj.DeSelected.add(obj.id)
+ItemSelected(obj:{uniqueFieldValue:any,checked:boolean}){
+
+
+  // if(this.selectionObj.AllSelected == true && obj.checked == false){
+  //   this.selectionObj.AllSelectedDirty = true
+  // }
+  //  if(obj.checked){
+  //    this.selectionObj.Selected.add(obj.id)
+  //    this.selectionObj.DeSelected.delete(obj.id)
+  //  }else{
+  //   this.selectionObj.Selected.delete(obj.id)
+  //   this.selectionObj.DeSelected.add(obj.id)
    
-   }
-    if(this.selectionObj.Selected.size == this.itemsCount ||
-        (this.selectionObj.AllSelectedDirty && this.selectionObj.DeSelected.size == 0)
-    ){
-      this.selectionObj = {
-        ...this.selectionObj,
-        AllSelected:true,
-        AllSelectedDirty:false
-      }
-    }else{
-      this.selectionObj = {
-        ...this.selectionObj,
-        AllSelected:false,
-      }
-    } 
-      
+  //  }
+  //   if(this.selectionObj.Selected.size == this.itemsCount ||
+  //       (this.selectionObj.AllSelectedDirty && this.selectionObj.DeSelected.size == 0)
+  //   ){
+  //     this.selectionObj = {
+  //       ...this.selectionObj,
+  //       AllSelected:true,
+  //       AllSelectedDirty:false
+  //     }
+  //   }else{
+  //     this.selectionObj = {
+  //       ...this.selectionObj,
+  //       AllSelected:false,
+  //     }
+  //   } 
+      obj.checked ? this.Selected.add(obj.uniqueFieldValue) : this.Selected.delete(obj.uniqueFieldValue)
+      if(this.Selected.size == this.page.length)
+          this.AllSelected = true
+      else
+          this.AllSelected = false
  
   
 }

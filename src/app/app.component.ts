@@ -17,13 +17,13 @@ export class AppComponent {
   filters:Filter[] = []
   Search(){
     this.filters = []
-    for (const obj in this.SearchObj) {
-          if(!this.SearchObj[obj].match("^$")){
-            this.filters.push({FieldName:obj , FilterText:this.SearchObj[obj]})
+    console.log(this.SearchObj)
+    // for (const obj in this.SearchObj) {
+    //       if(!this.SearchObj[obj].match("^$")){
+    //         this.filters.push({FieldName:obj , FilterText:this.SearchObj[obj]})
 
-          }
-          
-    } 
+    //       }
+    // } 
   }
 
     data:any =[

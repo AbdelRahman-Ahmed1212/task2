@@ -1,18 +1,19 @@
 <tr *ngFor="let row of data">
     <td>
-        <input type="checkbox" (change)="ToggleCheckBox($event,row.id)" [checked]="isSelected(row.id)" [id]="row.id" />
+        <input type="checkbox" (change)="ToggleCheckBox($event,row.id)" [checked]="isSelected(row[options.uniqueField])" [id]="row[options.uniqueField]" />
     </td>
     <td *ngFor="let item of row|keyvalue:returnZeroToPreventSort let i = index">
-        {{item.value}}
+        <img src="item.value" *ngIf="options.headers[i].dataType == 'image'" />
+        <span *ngIf="options.headers[i].dataType != 'image'">{{item.value}}</span>
     </td>
     <td>
         <label class="switch">
-                    <input type="checkbox" (change)="toggleChanged($event,row.id)">
+                    <input type="checkbox" [disabled]="options.ToggleRule(row)" [checked]="options.ToggleRule(row)" (change)="toggleChanged($event,row[options.uniqueField])">
                     <span class="slider round"></span>
             </label>
     </td>
     <td>
-        <button *ngFor="let Action of options.Actions" [disabled]="!Action.Rule(row)" (click)="commitAction(Action.Name,row.id)">{{Action.Name}}</button>
+        <button *ngFor="let Action of options.Actions" [disabled]="!Action.Rule(row)" (click)="commitAction(Action.Name,row[options.uniqueField])">{{Action.Name}}</button>
     </td>
 </tr>
 

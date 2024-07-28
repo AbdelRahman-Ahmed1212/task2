@@ -21,8 +21,7 @@ export class HeaderComponent {
     @Input() options:Options|any
     @Input() SortDirections!:{colName:string ; direction:sortDirection}
     @Input() mode!:string
-    @Input()selectionObj!:{AllSelected:boolean,Selected:Set<number>,DeSelected:Set<number>,AllSelectedDirty:boolean}
-
+    @Input() AllSelected!:boolean
   ColumnClicked(ColumnName:string){
     console.log('from column event')
     const ColumnDataType = this.headers.find((a:any)=>a.name ==  ColumnName);

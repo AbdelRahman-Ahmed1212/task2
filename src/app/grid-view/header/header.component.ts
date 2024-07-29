@@ -1,15 +1,15 @@
 import { Component, Input, Output, EventEmitter, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Options } from '../../../interfaces/Options';
-
 import { TranslateModule } from '@ngx-translate/core';
 import {RenderIconsDirective} from '../../directives/render-icons-directive.directive'
 import { sortDirection } from '../../../interfaces/RequestDTO';
 import { FormsModule } from '@angular/forms';
+import { ControlsComponent } from '../Controls/controls/controls.component';
 @Component({
-  selector: 'app-header',
+  selector: '[app-header]',
   standalone: true,
-  imports: [CommonModule,TranslateModule,RenderIconsDirective,FormsModule],
+  imports: [CommonModule,TranslateModule,RenderIconsDirective,FormsModule,ControlsComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -22,6 +22,9 @@ export class HeaderComponent {
     @Input() SortDirections!:{colName:string ; direction:sortDirection}
     @Input() mode!:string
     @Input() AllSelected!:boolean
+    @Input() selectedObjects:any
+    
+    dropDownVisible:boolean = true
   ColumnClicked(ColumnName:string){
     console.log('from column event')
     const ColumnDataType = this.headers.find((a:any)=>a.name ==  ColumnName);
@@ -38,6 +41,9 @@ export class HeaderComponent {
   }
   SelectAll(event:any){
     this.TriggerSelectAll.emit((event.target as HTMLInputElement).checked)    
+  }
+  toggleDropDown(){
+      this.dropDownVisible = !this.dropDownVisible
   }
   
 

@@ -1,4 +1,4 @@
-import { Component,Input, Output, EventEmitter } from '@angular/core';
+import { Component,Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,14 +8,17 @@ import { CommonModule } from '@angular/common';
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.css'
 })
-export class PaginatorComponent {
+export class PaginatorComponent implements OnChanges {
   @Input() NumberOfPages:number = 0;
   @Output() PageNavigate = new EventEmitter<number>();
   CurrentPage:number = 0
   EmitPageNumber(pg:number){
     this.CurrentPage = pg
     this.PageNavigate.emit(pg)
+    console.log(this.CurrentPage)
   }
-
+  ngOnChanges(){
+     this.CurrentPage = 0
+  }
 
 }

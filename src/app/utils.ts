@@ -1,7 +1,6 @@
-import { sortDirection,RequestDTO } from './interfaces/RequestDTO';
-import { GridService } from './app/Services/grid.service';
-import { Options } from './interfaces/Options';
-import { ResponseDTO } from './interfaces/ResponseDto';
+import { sortDirection,RequestDTO } from '../interfaces/RequestDTO';
+import { GridService } from './Services/grid.service';
+import { Options } from '../interfaces/Options';
 
 export function   NumiricSort(thisArg:any,colName:string , sorted:{colName:string ; direction:sortDirection},data:any , DisplayCallback:(pageNumber:number)=>void){
     if(sorted.colName != colName || 

@@ -8,16 +8,14 @@ import { FormsModule } from '@angular/forms';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ControlsComponent } from './Controls/controls/controls.component';
 import { GridService } from '../Services/grid.service';
-import {serverSort,AlphapiticalSort,NumiricSort}from '../../utils'
+import {serverSort,AlphapiticalSort,NumiricSort}from '../utils'
 import { RequestDTO, sortDirection } from '../../interfaces/RequestDTO';
 import { ResponseDTO } from '../../interfaces/ResponseDto';
 import { Filter } from '../../interfaces/Filter';
-import { ValidateSearch } from '../directives/validate-search.directive';
-import { Action } from '../../interfaces/Action';
 @Component({
   selector: 'app-grid-view',
   standalone: true,
-  imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule,TranslateModule,ControlsComponent,ValidateSearch],
+  imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule,TranslateModule,ControlsComponent],
   templateUrl: './grid-view.component.html',
   styleUrl: './grid-view.component.css'
 })
@@ -62,7 +60,7 @@ export class GridViewComponent implements OnInit   {
 
   ngOnChanges(changes: SimpleChanges){
       if(this.sorted != undefined){
-        this.DisplayPage(0)
+        this.DisplayPage(1)
       }
   }  
 
@@ -83,6 +81,7 @@ export class GridViewComponent implements OnInit   {
      
   }
 DisplayPage(pg:number){
+  console.log(pg)
   if(this.options.pagination.paging){
     this.pageNumber = pg;
     const startIndex = pg * this.pageSize;
@@ -116,7 +115,7 @@ DisplayPage(pg:number){
   }
 
   this.page = this.data
-  this.AllSelected = this.AllPageSelected()
+  // this.AllSelected = this.AllPageSelected()
 
 }
 
@@ -208,10 +207,10 @@ ItemSelected(obj:{uniqueFieldValue:number|string,checked:boolean}){
       }else{
         if(this.selectedObjects != undefined)
         delete this.selectedObjects[obj.uniqueFieldValue]
+
       }
-  
- 
-  
+      
+      this.AllSelected = this.AllPageSelected()  
 }
 
 commitAction(data:any){

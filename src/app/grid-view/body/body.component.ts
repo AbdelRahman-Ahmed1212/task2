@@ -2,10 +2,9 @@ import { Component, Input, Output,EventEmitter, OnChanges, output } from '@angul
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms'
 import { Options } from '../../../interfaces/Options';
-import { CLOSING } from '../../../../node_modules/@types/ws';
 import { Action } from '../../../interfaces/Action';
 @Component({
-  selector: 'app-body',
+  selector: '[app-body]',
   standalone: true,
   imports: [CommonModule,FormsModule],
   templateUrl: './body.component.html',

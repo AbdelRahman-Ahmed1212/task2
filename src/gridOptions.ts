@@ -10,13 +10,13 @@ const GridViewOptions:Options = {
     selection:true,
     uniqueField:'id',
     headers:[
-      {name:'id',sortable:true,dataType:'number'},
-      {name:'FirstName',sortable:true,dataType:'string'},
-      {name:'LastName',sortable:true,dataType:'string'},
-      {name:'Email',sortable:true,dataType:'string'},
-      {name:'Phone',sortable:true,dataType:'string'},
-      {name:'DOB',sortable:true,dataType:'string'},
-      {name:'image',sortable:false,dataType:'image'},
+      {name:'id',sortable:true,dataType:'number',searchable:true},
+      {name:'FirstName',sortable:true,dataType:'string',searchable:true},
+      {name:'LastName',sortable:true,dataType:'string',searchable:true},
+      {name:'Email',sortable:true,dataType:'string',searchable:true},
+      {name:'Phone',sortable:true,dataType:'string',searchable:true},
+      {name:'DOB',sortable:true,dataType:'string',searchable:false},
+      {name:'image',sortable:false,dataType:'image',searchable:false},
       // {name:'id',sortable:true,dataType:'number'},
       // {name:'name',sortable:true,dataType:'string'},
       // {name:'age',sortable:true,dataType:'number'},
@@ -40,7 +40,7 @@ const GridViewOptions:Options = {
   DefaultSortedColumn:{
       colName:'id',
       direction:'asc',
-      dataType:'number'
+      dataType:'number',
   },
   searchableColumns:[
     {

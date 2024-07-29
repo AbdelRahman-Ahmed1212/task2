@@ -1,5 +1,5 @@
 <tr *ngFor="let row of data">
-    <td>
+    <td *ngIf="options.selection">
         <input type="checkbox" (change)="ToggleCheckBox($event,row.id)" [checked]="isSelected(row.id)" [id]="row[options.uniqueField]" />
     </td>
     <td *ngFor="let item of row|keyvalue:returnZeroToPreventSort let i = index">

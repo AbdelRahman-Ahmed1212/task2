@@ -1,7 +1,9 @@
 <div>
     <div>
         <div *ngFor="let header of options.headers">
-            {{header.name}}: <input type="text" [(ngModel)]="SearchObj[header.name]" />
+            <div *ngIf="header.searchable">
+                {{header.name}}: <input type="text" [(ngModel)]="SearchObj[header.name]" />
+            </div>
         </div>
         <input type="button" value="search" (click)="Search()" />
     </div>

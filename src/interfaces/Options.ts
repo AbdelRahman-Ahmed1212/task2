@@ -11,7 +11,7 @@ export interface Options{
     uniqueField:string
     selection:boolean // turn selection on or of
     DefaultSortedColumn:{colName:string ,direction:string,dataType:string} // column name to be ascending or descending sorted
-    headers:{name:string,sortable:boolean,dataType:string} [] // set the names for our columns and set also if a column is sortable or not
+    headers:{name:string,sortable:boolean,dataType:string,searchable:boolean} [] // set the names for our columns and set also if a column is sortable or not
     Actions:Action[],
     searchableColumns:{name:string,periority:number}[],
     Translation:{

@@ -1,6 +1,6 @@
 <tr>
     <th *ngIf="options.selection" [ngStyle]="{display:options.selection?'table-cell':'none'}">
-        <input type="checkbox" (input)="SelectAll($event)" [(ngModel)]="AllSelected" />
+        <input type="checkbox" *ngIf="options.selectAll" (input)="SelectAll($event)" [(ngModel)]="AllSelected" />
 
     </th>
     <th *ngFor="let header of headers let i = index ">
@@ -16,7 +16,7 @@
         Toggle
     </th>
     <th>
-        <div>
+        <div *ngIf="options.selectAll">
             <button class="btn btn-primary btn-sm" type="button" (click)="toggleDropDown()">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
         </button>

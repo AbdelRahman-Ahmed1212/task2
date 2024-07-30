@@ -56,6 +56,7 @@ const GridViewOptions:Options = {
     translation:false,
     TranslationPath:'./assets/i18n/users/'
   }
-
+  ,
+  selectAll:true
   }  
 export default GridViewOptions

@@ -8,6 +8,7 @@ export interface Options{
         pageSize:number,
         startPage:number,
     } // turn pagination on or off,
+    selectAll:boolean
     uniqueField:string
     selection:boolean // turn selection on or of
     DefaultSortedColumn:{colName:string ,direction:string,dataType:string} // column name to be ascending or descending sorted

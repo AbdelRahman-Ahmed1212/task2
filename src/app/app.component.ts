@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GridViewComponent } from './grid-view/grid-view.component';
 import gridOptions from '../gridOptions'
@@ -12,11 +12,28 @@ import { Filter } from '../interfaces/Filter';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   SearchObj:any = {};
   filters:Filter[] = []
+  TempSearchObj:any = {}
+  @ViewChild('grid') grid:any
+
+
+  initTempSearchObj(){
+    gridOptions.headers.forEach(
+      (obj:any)=>{
+            this.TempSearchObj[obj.name] = ''    
+      }
+    )
+  }
+
+
+  ngOnInit(){
+    this.initTempSearchObj()
+  }
   Search(){
-    
+    this.SearchObj = {...this.TempSearchObj}
+    debugger
   }
 
     data:any =[

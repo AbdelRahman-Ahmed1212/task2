@@ -1,10 +1,10 @@
 <div>
     <div *ngFor="let header of GridViewOptions.headers">
         <div *ngIf="header.searchable">
-            {{header.name}}: <input type="text" [(ngModel)]="SearchObj[header.name]" />
+            {{header.name}}: <input type="text" [(ngModel)]="TempSearchObj[header.name]" />
         </div>
     </div>
-    <input type="button" value="search" (click)="grid.DisplayPage(0)" />
+    <input type="button" value="search" (click)="Search()" />
 </div>
 <app-grid-view #grid [options]="GridViewOptions" [SearchObj]="SearchObj" [data]="data" [filters]="filters" mode="server" url="http://localhost:5054/User">
 </app-grid-view>

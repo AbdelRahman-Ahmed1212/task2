@@ -19,7 +19,7 @@ import { Filter } from '../../interfaces/Filter';
   templateUrl: './grid-view.component.html',
   styleUrl: './grid-view.component.scss'
 })
-export class GridViewComponent implements OnInit   {
+export class GridViewComponent implements OnInit , OnChanges   {
  
   @Input() options:Options|any;
   @Input () data:any;
@@ -61,15 +61,11 @@ export class GridViewComponent implements OnInit   {
 
   ngOnChanges(changes: SimpleChanges){
       if(this.sorted != undefined){
-        this.DisplayPage(1)
+        this.DisplayPage(0)
       }
   }  
 
-  Search(){
 
-     this.DisplayPage(0)
-
-  }
   /// looking for a better way to achieve this because it has bad berformance
   AllPageSelected(){
     

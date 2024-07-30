@@ -21,7 +21,6 @@ export class RenderIconsDirective implements OnInit,OnChanges{
    this.RenderArrow()
   }
   RenderArrow(){
-    console.log('from RenderArrow')
       if(this.SortedColName == this.CurrentColumnName){
         this.Direction == sortDirection.asc ? this.class = 'fa-solid fa-sort-down' : this.class = 'fa-solid fa-sort-up'
     }

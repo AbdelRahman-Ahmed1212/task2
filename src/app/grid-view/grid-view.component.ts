@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { BodyComponent } from './body/body.component';
 import { Options } from '../../interfaces/Options';
@@ -26,6 +26,7 @@ export class GridViewComponent implements OnInit   {
   @Input() mode! : 'client' | 'server'
   @Input() url = ''
   @Input() filters!:Filter[]
+  @Output() UserActionEmitter = new EventEmitter()
   uniqueField!:string
   requestDto!:RequestDTO
   page:{}[] = []
@@ -81,7 +82,6 @@ export class GridViewComponent implements OnInit   {
      
   }
 DisplayPage(pg:number){
-  console.log(pg)
   if(this.options.pagination.paging){
     this.pageNumber = pg;
     const startIndex = pg * this.pageSize;
@@ -180,7 +180,6 @@ SelectAll(data:boolean){
           
          });
          this.AllSelected = true
-         console.log(this.selectedObjects)
        }else{
          this.AllSelected = false
          this.page.forEach(
@@ -214,6 +213,9 @@ ItemSelected(obj:{uniqueFieldValue:number|string,checked:boolean}){
 }
 
 commitAction(data:any){
+}
+EmitActionToUser(name:string){
+  this.UserActionEmitter.emit({name:name,selected:this.selectedObjects})
 }
 
 

@@ -16,6 +16,7 @@ import { ControlsComponent } from '../Controls/controls/controls.component';
 export class HeaderComponent {
     @Output() TriggerSort = new EventEmitter<{mode:string,colName:string}>();
     @Output() TriggerSelectAll = new EventEmitter<boolean>()
+    @Output() EmitAction = new EventEmitter<string>()
     @Input() data:Array<{}> = [];
     @Input() headers:{name:string,sortable:boolean,dataType:string} []= []
     @Input() options:Options|any
@@ -26,7 +27,6 @@ export class HeaderComponent {
     
     dropDownVisible:boolean = true
   ColumnClicked(ColumnName:string){
-    console.log('from column event')
     const ColumnDataType = this.headers.find((a:any)=>a.name ==  ColumnName);
     if(ColumnDataType == undefined)
       return
@@ -44,6 +44,9 @@ export class HeaderComponent {
   }
   toggleDropDown(){
       this.dropDownVisible = !this.dropDownVisible
+  }
+  emitActionToGird(name:string){
+      this.EmitAction.emit(name)
   }
   
 

@@ -20,7 +20,7 @@
             <button class="btn btn-primary btn-sm" type="button" (click)="toggleDropDown()">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
         </button>
-            <div app-controls [hidden]="dropDownVisible" [selectedObjects]="selectedObjects" [Data]="data" [Actions]="options.Actions">
+            <div app-controls (ActionEmitter)="emitActionToGird($event)" [hidden]="dropDownVisible" [selectedObjects]="selectedObjects" [Data]="data" [Actions]="options.Actions">
 
             </div>
         </div>

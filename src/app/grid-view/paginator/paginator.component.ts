@@ -15,7 +15,6 @@ export class PaginatorComponent implements OnChanges {
   EmitPageNumber(pg:number){
     this.CurrentPage = pg
     this.PageNavigate.emit(pg)
-    console.log(this.CurrentPage)
   }
   ngOnChanges(){
      this.CurrentPage = 0

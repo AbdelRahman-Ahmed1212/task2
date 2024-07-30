@@ -10,7 +10,7 @@
     <!-- <app-controls [Data]="page" [Actions]="options.Actions" [options]="options" [selectedObjects]="selectedObjects"></app-controls> -->
     <!-- //    search : <input type="text" [(ngModel)]="searchVal" (input)="SearchGrid()"> -->
     <table class="table table-striped">
-        <thead app-header [selectedObjects]="selectedObjects" [headers]="options.headers" [AllSelected]="AllSelected" [SortDirections]="sorted" (TriggerSelectAll)="SelectAll($event)" [options]="options" (TriggerSort)="Sort($event)">
+        <thead app-header (EmitAction)="EmitActionToUser($event)" [selectedObjects]="selectedObjects" [headers]="options.headers" [AllSelected]="AllSelected" [SortDirections]="sorted" (TriggerSelectAll)="SelectAll($event)" [options]="options" (TriggerSort)="Sort($event)">
 
         </thead>
         <tbody app-body [data]="page" [options]="options" [selectedObjects]="selectedObjects" (ItemSelected)="ItemSelected($event)" [PageNumber]="pageNumber" (ActionEmitter)="commitAction($event)">

@@ -10,20 +10,13 @@ import { Filter } from '../interfaces/Filter';
   standalone: true,
   imports: [RouterOutlet,GridViewComponent,CommonModule,FormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   SearchObj:any = {};
   filters:Filter[] = []
   Search(){
-    this.filters = []
-    console.log(this.SearchObj)
-    // for (const obj in this.SearchObj) {
-    //       if(!this.SearchObj[obj].match("^$")){
-    //         this.filters.push({FieldName:obj , FilterText:this.SearchObj[obj]})
-
-    //       }
-    // } 
+    
   }
 
     data:any =[

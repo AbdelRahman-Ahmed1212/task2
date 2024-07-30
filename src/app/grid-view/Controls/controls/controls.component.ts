@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './controls.component.html',
-  styleUrl: './controls.component.css'
+  styleUrl: './controls.component.scss'
 })
 export class ControlsComponent {
       @Input() Data:any

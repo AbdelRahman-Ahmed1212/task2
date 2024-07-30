@@ -11,7 +11,7 @@ import { ControlsComponent } from '../Controls/controls/controls.component';
   standalone: true,
   imports: [CommonModule,TranslateModule,RenderIconsDirective,FormsModule,ControlsComponent],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
     @Output() TriggerSort = new EventEmitter<{mode:string,colName:string}>();

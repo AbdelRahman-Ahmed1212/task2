@@ -8,7 +8,7 @@ import { Action } from '../../../interfaces/Action';
   standalone: true,
   imports: [CommonModule,FormsModule],
   templateUrl: './body.component.html',
-  styleUrl: './body.component.css'
+  styleUrl: './body.component.scss'
 })
 export class BodyComponent{
       @Input() data:any

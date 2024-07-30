@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './paginator.component.html',
-  styleUrl: './paginator.component.css'
+  styleUrl: './paginator.component.scss'
 })
 export class PaginatorComponent implements OnChanges {
   @Input() NumberOfPages:number = 0;

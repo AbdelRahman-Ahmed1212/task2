@@ -17,7 +17,7 @@ import { Filter } from '../../interfaces/Filter';
   standalone: true,
   imports: [HeaderComponent,BodyComponent,PaginatorComponent,CommonModule,FormsModule,TranslateModule,ControlsComponent],
   templateUrl: './grid-view.component.html',
-  styleUrl: './grid-view.component.css'
+  styleUrl: './grid-view.component.scss'
 })
 export class GridViewComponent implements OnInit   {
  
@@ -38,7 +38,7 @@ export class GridViewComponent implements OnInit   {
   sorted!:{colName:string ; direction:sortDirection}
   SelectedCount: number = 0;
   Loading = true;
-  SearchObj:any = {}
+  @Input() SearchObj:any = {}
   AllSelected!:boolean
   constructor(private translate:TranslateService,private gridService:GridService){
     this.selectedObjects = {}

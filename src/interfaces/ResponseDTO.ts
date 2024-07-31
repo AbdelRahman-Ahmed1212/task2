@@ -1,6 +1,5 @@
 export interface ResponseDTO{
-    data:any,
-    page:number,
-    totalNumberOfPages:number
-    itemsCount:number
+    dataSource:any,
+    totalCount:number
+    checked:boolean
 }

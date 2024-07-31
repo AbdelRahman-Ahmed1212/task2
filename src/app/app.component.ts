@@ -20,9 +20,17 @@ export class AppComponent implements OnInit{
 
 
   initTempSearchObj(){
-    gridOptions.headers.forEach(
+   gridOptions.headers.forEach(
       (obj:any)=>{
-            this.TempSearchObj[obj.name] = ''    
+        if(obj.searchable){
+          if(obj.dataType == 'enum'){
+            this.TempSearchObj[obj.name] =  +(Object.keys(obj.enum)[0])
+         
+          }else{
+            this.TempSearchObj[obj.name] = '' 
+          }
+        }
+      
       }
     )
   }
@@ -33,7 +41,8 @@ export class AppComponent implements OnInit{
   }
   Search(){
     this.SearchObj = {...this.TempSearchObj}
-    debugger
+     console.log(this.SearchObj , this.TempSearchObj)
+    this.grid.DisplayPage(0)
   }
 
     data:any =[

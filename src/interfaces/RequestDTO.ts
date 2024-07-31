@@ -1,14 +1,10 @@
 import { Filter } from './Filter';
 
 export interface RequestDTO{
-    sortColumnName: string,
-    sortDirection: sortDirection,
-    currentPage: number,
+    sortBy: string,
+    sortDirection: 'desc' | 'asc',
+    pageIndex: number,
     pageSize: number,
-    searchObj:any
+    search:any
 
-}
-export enum sortDirection{
-    desc = 0,
-    asc = 1
 }

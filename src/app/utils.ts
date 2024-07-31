@@ -1,15 +1,15 @@
-import { sortDirection,RequestDTO } from '../interfaces/RequestDTO';
+import { RequestDTO } from '../interfaces/RequestDTO';
 import { GridService } from './Services/grid.service';
 import { Options } from '../interfaces/Options';
 
-export function   NumiricSort(thisArg:any,colName:string , sorted:{colName:string ; direction:sortDirection},data:any , DisplayCallback:(pageNumber:number)=>void){
+export function   NumiricSort(thisArg:any,colName:string , sorted:{colName:string ; direction:string},data:any , DisplayCallback:(pageNumber:number)=>void){
     if(sorted.colName != colName || 
-      (sorted.colName == colName && sorted.direction == sortDirection.desc)){
+      (sorted.colName == colName && sorted.direction == 'desc')){
       data.sort(
         (a:any,b:any)=>b[colName] - a[colName]
       )
       sorted.colName = colName
-      sorted.direction = sortDirection.asc
+      sorted.direction = 'asc'
       DisplayCallback.call(thisArg,0)
       return;
     }
@@ -17,7 +17,7 @@ export function   NumiricSort(thisArg:any,colName:string , sorted:{colName:strin
        
         (a:any,b:any)=>a[colName] - b[colName]
       ) 
-      sorted.direction = sortDirection.desc
+      sorted.direction = 'desc'
       DisplayCallback.call(thisArg,0)
 
 
@@ -27,14 +27,14 @@ export function   NumiricSort(thisArg:any,colName:string , sorted:{colName:strin
 
 
 */
-export function   AlphapiticalSort(thisArg:any,colName:string,sorted:{colName:string ; direction:sortDirection},data:any,DisplayCallback:(pageNumber:number)=>void){
+export function   AlphapiticalSort(thisArg:any,colName:string,sorted:{colName:string ; direction:string},data:any,DisplayCallback:(pageNumber:number)=>void){
     if(sorted.colName != colName || 
-      (sorted.colName == colName && sorted.direction == sortDirection.desc)){
+      (sorted.colName == colName && sorted.direction == 'desc')){
       data.sort(
         (a:any,b:any)=>b[colName].localeCompare(a[colName])
       )
       sorted.colName = colName
-      sorted.direction = sortDirection.asc
+      sorted.direction = 'asc'
       DisplayCallback.call(thisArg,0)
       return;
     }
@@ -43,7 +43,7 @@ export function   AlphapiticalSort(thisArg:any,colName:string,sorted:{colName:st
        
         (a:any,b:any)=>a[colName].localeCompare(b[colName])
       ) 
-      sorted.direction = sortDirection.desc
+      sorted.direction = 'desc'
       DisplayCallback.call(thisArg,0)
     }
 
@@ -51,15 +51,15 @@ export function   AlphapiticalSort(thisArg:any,colName:string,sorted:{colName:st
   
   
   */
-  export function serverSort(thisArg:any,colName:string,sorted:{colName:string ; direction:sortDirection},
+  export function serverSort(thisArg:any,colName:string,sorted:{colName:string ; direction:string},
     page:any,DisplayCallback:(pageNumber:number)=>void ,service:GridService,options:Options,
     pageNumber:number,url:string,NofPages:number){
         // check whick direction we will sort the to be sorted column
-        if((colName == sorted.colName && sorted.direction == sortDirection.desc) || colName!=sorted.colName){
-            sorted.direction = sortDirection.asc
+        if((colName == sorted.colName && sorted.direction == 'desc') || colName!=sorted.colName){
+            sorted.direction = 'asc'
             sorted.colName = colName
         }else{
-            sorted.direction = sortDirection.desc
+            sorted.direction = 'desc'
 
         }
  

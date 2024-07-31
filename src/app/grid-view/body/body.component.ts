@@ -10,7 +10,7 @@ import { Action } from '../../../interfaces/Action';
   templateUrl: './body.component.html',
   styleUrl: './body.component.scss'
 })
-export class BodyComponent{
+export class BodyComponent {
       @Input() data:any
       @Input() options!:Options
       @Input() PageNumber:number = 1;
@@ -25,14 +25,10 @@ export class BodyComponent{
         return 0;
       }
       commitAction(ActionName:string,dataId:number){
-        const ObjectToCommitActionOn = this.data.find((a:any)=>a.id == dataId)
-        if(confirm("do you really want to commit this!")){
-            this.ActionEmitter.emit({Action:ActionName,obj:{
-                ...ObjectToCommitActionOn
-            }})
-        }
-      }
     
+      }
+   
+
       ToggleCheckBox(event:any,val:any){  
         
         this.ItemSelected.emit({uniqueFieldValue:val,checked:(event.target as HTMLInputElement).checked})
@@ -44,5 +40,9 @@ export class BodyComponent{
       }
       toggleChanged(event:any,val:any){
         this.TriggerToggle.emit({uniqueFieldValue:val,status:(event.target as HTMLInputElement).checked})
+      }
+      getString(input:any)
+      {
+        return String(input);
       }
 }

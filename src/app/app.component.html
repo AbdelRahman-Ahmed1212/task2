@@ -1,10 +1,8 @@
 <div>
-    <div *ngFor="let header of GridViewOptions.headers">
-        <div *ngIf="header.searchable">
-            {{header.name}}: <input type="text" [(ngModel)]="TempSearchObj[header.name]" />
-        </div>
-    </div>
+
+    linkName: <input type="text" [(ngModel)]="TempSearchObj['linkName']" /> quick_Access: <input type="number" [(ngModel)]="TempSearchObj['quick_Access']" />
+
     <input type="button" value="search" (click)="Search()" />
 </div>
-<app-grid-view #grid [options]="GridViewOptions" [SearchObj]="SearchObj" [data]="data" [filters]="filters" mode="server" url="http://localhost:5054/User">
+<app-grid-view #grid [options]="GridViewOptions" [SearchObj]="SearchObj" [data]="data" [filters]="filters" mode="server" url="https://localhost:7222/api/QuickAccess/GetQuickLinksGridData">
 </app-grid-view>

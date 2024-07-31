@@ -1,6 +1,5 @@
  import {Options} from './interfaces/Options'
 const GridViewOptions:Options = {
-    //hiddenColumns :[],
     pagination:{
       pageSize:3,
       paging:true,
@@ -10,17 +9,16 @@ const GridViewOptions:Options = {
     selection:true,
     uniqueField:'id',
     headers:[
-      {name:'id',sortable:true,dataType:'number',searchable:true},
-      {name:'FirstName',sortable:true,dataType:'string',searchable:true},
-      {name:'LastName',sortable:true,dataType:'string',searchable:true},
-      {name:'Email',sortable:true,dataType:'string',searchable:true},
-      {name:'Phone',sortable:true,dataType:'string',searchable:true},
-      {name:'DOB',sortable:true,dataType:'string',searchable:false},
-      {name:'image',sortable:false,dataType:'image',searchable:false},
-      // {name:'id',sortable:true,dataType:'number'},
-      // {name:'name',sortable:true,dataType:'string'},
-      // {name:'age',sortable:true,dataType:'number'},
-      // {name:'active',sortable:false,dataType:'boolean'},
+      {name:'id',sortable:false,dataType:'string',searchable:false},
+      {name:'arLink',sortable:false,dataType:'string',searchable:false},
+      {name:'enLink',sortable:true,dataType:'string',searchable:false},
+      {name:'LinkName',sortable:true,dataType:'link',searchable:true},
+      {name:'quick_Access',sortable:true,dataType:'enum',searchable:true,enum:{
+       0: 'Active',
+        1:'Deactive'
+      }},
+     
+
 
     ],
 
@@ -38,7 +36,7 @@ const GridViewOptions:Options = {
   ],
   ToggleRule:(obj:any)=> obj['id'] > 14,
   DefaultSortedColumn:{
-      colName:'id',
+      colName:'Id',
       direction:'asc',
       dataType:'number',
   },

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Options } from '../../../interfaces/Options';
 import { TranslateModule } from '@ngx-translate/core';
 import {RenderIconsDirective} from '../../directives/render-icons-directive.directive'
-import { sortDirection } from '../../../interfaces/RequestDTO';
 import { FormsModule } from '@angular/forms';
 import { ControlsComponent } from '../Controls/controls/controls.component';
 @Component({
@@ -20,7 +19,7 @@ export class HeaderComponent {
     @Input() data:Array<{}> = [];
     @Input() headers:{name:string,sortable:boolean,dataType:string} []= []
     @Input() options:Options|any
-    @Input() SortDirections!:{colName:string ; direction:sortDirection}
+    @Input() SortDirections!:{colName:string ; direction:'desc' | 'asc'}
     @Input() mode!:string
     @Input() AllSelected!:boolean
     @Input() selectedObjects:any

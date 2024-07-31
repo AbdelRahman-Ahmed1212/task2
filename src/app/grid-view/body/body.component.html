@@ -1,10 +1,12 @@
 <tr *ngFor="let row of data">
     <td *ngIf="options.selection">
-        <input type="checkbox" (change)="ToggleCheckBox($event,row.id)" [checked]="isSelected(row.id)" [id]="row[options.uniqueField]" />
+        <input type="checkbox" (change)="ToggleCheckBox($event,row[options.uniqueField])" [checked]="isSelected(row[options.uniqueField])" [id]="row[options.uniqueField]" />
     </td>
     <td *ngFor="let item of row|keyvalue:returnZeroToPreventSort let i = index">
         <img [src]="item.value" *ngIf="options.headers[i].dataType == 'image'" style="width:50px;height:50px" />
-        <span *ngIf="options.headers[i].dataType != 'image'">{{item.value}}</span>
+        <span *ngIf="options.headers[i].dataType == 'string' || options.headers[i].dataType =='number'  ">{{item.value}}</span>
+        <a *ngIf="options.headers[i].dataType == 'link'" href="{{item.value}}">{{item.value}}</a>
+        <span *ngIf="options.headers[i].dataType =='enum'">{{options.headers[i].enum[getString(item.value)]}}</span>
 
     </td>
     <td>
@@ -18,4 +20,4 @@
     </td>
 </tr>
 
-<!-- <div> displaying page No. {{PageNumber+1}}</div> -->
+<div> displaying page No. {{PageNumber+1}}</div>

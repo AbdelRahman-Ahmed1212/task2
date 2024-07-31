@@ -9,7 +9,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { ControlsComponent } from './Controls/controls/controls.component';
 import { GridService } from '../Services/grid.service';
 import {serverSort,AlphapiticalSort,NumiricSort}from '../utils'
-import { RequestDTO, sortDirection } from '../../interfaces/RequestDTO';
+import { RequestDTO } from '../../interfaces/RequestDTO';
 import { ResponseDTO } from '../../interfaces/ResponseDto';
 import { Filter } from '../../interfaces/Filter';
 @Component({
@@ -27,6 +27,7 @@ export class GridViewComponent implements OnInit , OnChanges   {
   @Input() url = ''
   @Input() filters!:Filter[]
   @Output() UserActionEmitter = new EventEmitter()
+  @Input() SearchObj:any = {}
   uniqueField!:string
   requestDto!:RequestDTO
   page:{}[] = []
@@ -35,10 +36,9 @@ export class GridViewComponent implements OnInit , OnChanges   {
   NofPages:number = 0
   itemsCount:number = 0 
   selectedObjects:any
-  sorted!:{colName:string ; direction:sortDirection}
+  sorted!:{colName:string ; direction:'desc' | 'asc'}
   SelectedCount: number = 0;
   Loading = true;
-  @Input() SearchObj:any = {}
   AllSelected!:boolean
   constructor(private translate:TranslateService,private gridService:GridService){
     this.selectedObjects = {}
@@ -70,7 +70,6 @@ export class GridViewComponent implements OnInit , OnChanges   {
   AllPageSelected(){
     
     let selectedObjectsCount = Object.values(this.selectedObjects).length;
-    
     if(selectedObjectsCount == 0) return false
    return this.page.every((obj:any)=>{
         return this.selectedObjects[ obj[this.uniqueField]] != undefined 
@@ -88,21 +87,21 @@ DisplayPage(pg:number){
       return
 
     }else{
+      console.log(this.SearchObj)
       const requestObj:RequestDTO = {
-        currentPage :pg,
+        pageIndex :pg,
         pageSize:this.options.pagination.pageSize,
-        sortColumnName:this.sorted.colName,
+        sortBy:this.sorted.colName,
         sortDirection:this.sorted.direction,
-        searchObj:JSON.stringify(this.SearchObj)
+        search:this.SearchObj,
+
     }
       this.gridService.GetObjects(requestObj,this.url).subscribe(
         (res:ResponseDTO)=>{
-          this.page = res.data
-          this.pageNumber = res.page
-          this.NofPages = res.totalNumberOfPages
-          this.itemsCount = res.itemsCount
+          this.page = res.dataSource
+          this.itemsCount = res.totalCount
           this.AllSelected = this.AllPageSelected()
-
+          this.NofPages = Math.ceil(this.itemsCount / this.options.pagination.pageSize)
         }
       )
     }
@@ -118,12 +117,19 @@ DisplayPage(pg:number){
 ngOnInit(): void {
   this.sorted = {
     colName:this.options.DefaultSortedColumn.colName,
-    direction:sortDirection.asc
+    direction:'asc'
   }
   //initializing the search object
   this.options.headers.forEach(
     (obj:any)=>{
-          this.SearchObj[obj.name] = ''    
+      if(obj.searchable){
+        if(obj.dataType == 'enum'){
+          this.SearchObj[obj.name] =  +(Object.keys(obj.enum)[0])
+        }else{
+          this.SearchObj[obj.name] = '' 
+        }
+      }
+    
     }
   )
 
@@ -142,7 +148,7 @@ ngOnInit(): void {
     
     if(SortedColumn){
         if(SortedColumn.direction == 'asc'){
-          this.sorted.direction = sortDirection.asc;
+          this.sorted.direction = 'asc';
           this.sorted.colName =SortedColumn.colName
         }
         if(this.mode == 'client'){
@@ -169,6 +175,7 @@ getString(input:any)
   return String(input);
 }
 SelectAll(data:boolean){
+  
        if(data){
          this.page.forEach((element:any) => {
               if(this.selectedObjects!= undefined)
@@ -176,6 +183,7 @@ SelectAll(data:boolean){
           
          });
          this.AllSelected = true
+         console.log(this.selectedObjects)
        }else{
          this.AllSelected = false
          this.page.forEach(
